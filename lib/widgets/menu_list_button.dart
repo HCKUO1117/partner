@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class MenuListButton extends StatelessWidget {
   final Function onTap;
   final String text;
+  final IconData? icon;
 
   const MenuListButton({
     Key? key,
     required this.onTap,
     required this.text,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -15,7 +17,7 @@ class MenuListButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         elevation: 0,
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
@@ -23,12 +25,25 @@ class MenuListButton extends StatelessWidget {
         ),
       ),
       onPressed: () {},
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-        ),
+      child: Row(
+        children: [
+          if (icon != null) ...[
+            Icon(
+              icon,
+              color: Colors.white,
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+          ],
+          Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+        ],
       ),
     );
   }

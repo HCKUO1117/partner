@@ -10,7 +10,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Partner 找夥伴、找活動、學技能',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Utils.createMaterialColor(Constants.primaryYellow),
