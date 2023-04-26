@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:partner/widgets/search_history_title.dart';
 
 class SearchBar extends StatefulWidget {
   final Function(String) onSearch;
@@ -12,18 +13,32 @@ class SearchBar extends StatefulWidget {
   State<SearchBar> createState() => _SearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
   final TextEditingController controller = TextEditingController();
   final FocusNode node = FocusNode();
+
+  final List<String> history = [
+    '123',
+    '321',
+  ];
+
+  late final AnimationController _expandController = AnimationController(
+    duration: const Duration(milliseconds: 500),
+    vsync: this,
+  );
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _expandController,
+    curve: Curves.fastOutSlowIn,
+  );
 
   @override
   void initState() {
     super.initState();
     node.addListener(() {
       if (node.hasFocus) {
-        print('focus');
+        _expandController.forward();
       } else {
-        print('unfocus');
+        _expandController.reverse();
       }
     });
   }
@@ -32,6 +47,7 @@ class _SearchBarState extends State<SearchBar> {
   void dispose() {
     controller.dispose();
     node.dispose();
+    _expandController.dispose();
     super.dispose();
   }
 
@@ -45,31 +61,61 @@ class _SearchBarState extends State<SearchBar> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(25),
+        color: Colors.white,
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: controller,
-              focusNode: node,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: '搜尋...',
+      child: Material(
+        color: Colors.transparent,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: controller,
+                    focusNode: node,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: '搜尋...',
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    widget.onSearch.call(controller.text);
+                  },
+                  borderRadius: BorderRadius.circular(50),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Icon(Icons.search),
+                  ),
+                )
+              ],
+            ),
+            SizeTransition(
+              sizeFactor: _animation,
+              axis: Axis.vertical,
+              axisAlignment: -1,
+              child: Column(
+                children: [
+                  const Divider(),
+                  ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return SearchHistoryTitle(
+                        onTap: () {},
+                        value: history[index],
+                      );
+                    },
+                    itemCount: history.length,
+                  )
+                ],
               ),
             ),
-          ),
-          InkWell(
-            onTap: () {
-              widget.onSearch.call(controller.text);
-            },
-            borderRadius: BorderRadius.circular(50),
-            child: const Padding(
-              padding: EdgeInsets.all(8),
-              child: Icon(Icons.search),
-            ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }

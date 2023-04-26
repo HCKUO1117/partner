@@ -24,97 +24,120 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            ///下方頁面
+            Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
+                const SizedBox(height: 90),
+                Container(
+                  height: 60,
+                  width: double.maxFinite,
+                  color: Constants.primaryOrange,
                   child: Row(
                     children: [
-                      Theme(
-                        data: ThemeData(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                        ),
-                        child: InkWell(
-                          onTap: () {},
-                          splashFactory: NoSplash.splashFactory,
-                          child: Image.asset(
-                            'assets/images/logo_hori.png',
-                            height: 70,
-                          ),
-                        ),
+                      MenuListButton(
+                        onTap: () {},
+                        text: '首頁',
                       ),
-                      const SizedBox(width: 16),
-                      Flexible(
-                        child: SearchBar(
-                          onSearch: (value) {},
-                        ),
+                      MenuListButton(
+                        onTap: () {},
+                        text: '找需求',
+                      ),
+                      MenuListButton(
+                        onTap: () {},
+                        text: '找夥伴',
+                      ),
+                      MenuListButton(
+                        onTap: () {},
+                        text: '活動',
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(width: 16),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: PopupMenuButton(
-                      itemBuilder: (context) => [
-                        const PopupMenuItem(
-                          child: Text('123'),
-                        )
-                      ],
-                      tooltip: '',
-                      position: PopupMenuPosition.under,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 2,
-                              color: Constants.primaryOrange,
+              ],
+            ),
+
+            ///上方欄位
+            Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Theme(
+                            data: ThemeData(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
                             ),
-                            borderRadius: BorderRadius.circular(50)),
-                        padding: const EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.person_outline,
-                          size: 30,
-                          color: Constants.primaryOrange,
-                        ),
+                            child: InkWell(
+                              onTap: () {},
+                              splashFactory: NoSplash.splashFactory,
+                              child: Image.asset(
+                                'assets/images/logo_hori.png',
+                                height: 70,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Flexible(
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 13),
+                                SearchBar(
+                                  onSearch: (value) {},
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
+                    const SizedBox(width: 16),
+                    Column(
+                      children: [
+                        const SizedBox(height: 13),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: PopupMenuButton(
+                              itemBuilder: (context) => [
+                                const PopupMenuItem(
+                                  child: Text('123'),
+                                )
+                              ],
+                              tooltip: '',
+                              position: PopupMenuPosition.under,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2,
+                                      color: Constants.primaryOrange,
+                                    ),
+                                    borderRadius: BorderRadius.circular(50)),
+                                padding: const EdgeInsets.all(8),
+                                child: Icon(
+                                  Icons.person_outline,
+                                  size: 30,
+                                  color: Constants.primaryOrange,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Container(
-            height: 60,
-            width: double.maxFinite,
-            color: Constants.primaryOrange,
-            child: Row(
-              children: [
-                MenuListButton(
-                  onTap: () {},
-                  text: '首頁',
-                ),
-                MenuListButton(
-                  onTap: () {},
-                  text: '找需求',
-                ),
-                MenuListButton(
-                  onTap: () {},
-                  text: '找夥伴',
-                ),
-                MenuListButton(
-                  onTap: () {},
-                  text: '活動',
-                ),
-              ],
-            ),
-          ),
-        ],
+              ),
+          ],
+        ),
       ),
     );
   }
