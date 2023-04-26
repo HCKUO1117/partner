@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:partner/constants.dart';
-import 'package:partner/screens/home_screen.dart';
+import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/utils/utils.dart';
 
-class App extends StatelessWidget {
+import 'navigator_v2/route_Information_parser.dart';
+
+class App extends StatefulWidget {
   const App({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  final AppRouterDelegate _delegate = AppRouterDelegate();
+  final AppRouterParser _parser = AppRouterParser();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Partner 找夥伴、找活動、學技能',
       debugShowCheckedModeBanner: false,
+      routerDelegate: _delegate,
+      routeInformationParser: _parser,
       theme: ThemeData(
         primarySwatch: Utils.createMaterialColor(Constants.primaryYellow),
         appBarTheme: const AppBarTheme(
@@ -19,8 +30,12 @@ class App extends StatelessWidget {
           backgroundColor: Colors.white,
         ),
         scaffoldBackgroundColor: Colors.white,
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.windows: CupertinoPageTransitionsBuilder(),
+          },
+        ),
       ),
-      home: const HomeScreen(),
     );
   }
 }
