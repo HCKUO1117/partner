@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:partner/constants.dart';
+import 'package:partner/controllers/home_controller.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/widgets/menu_list_button.dart';
 import 'package:partner/widgets/search_bar.dart';
@@ -22,6 +23,13 @@ class ExampleItem {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController search = TextEditingController();
+  HomeController homeController = Get.put(HomeController());
+
+  @override
+  void initState() {
+    super.initState();
+    homeController.change();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                homePageBlock(title: '找需求')
+                homePageBlock(title: '找需求'),
+                homePageBlock(title: '找夥伴'),
+                homePageBlock(title: '找活動'),
               ],
             ),
 
@@ -178,6 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
+          Obx(() => Text("${homeController.test}"))
         ],
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:partner/constants.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/utils/utils.dart';
+import 'package:get/get.dart';
 
 import 'navigator_v2/route_Information_parser.dart';
 
@@ -18,7 +19,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return GetMaterialApp.router(
       title: 'Partner 找夥伴、找活動、學技能',
       debugShowCheckedModeBanner: false,
       routerDelegate: _delegate,
