@@ -25,18 +25,13 @@ class _AppState extends State<App> {
       routerDelegate: _delegate,
       routeInformationParser: _parser,
       theme: ThemeData(
-        primarySwatch: Utils.createMaterialColor(Constants.primaryYellow),
-        appBarTheme: const AppBarTheme(
-          elevation: 0,
-          backgroundColor: Colors.white,
-        ),
-        scaffoldBackgroundColor: Colors.white,
-        pageTransitionsTheme: const PageTransitionsTheme(
-          builders: {
-            TargetPlatform.windows: CupertinoPageTransitionsBuilder(),
-          },
-        ),
-      ),
+          primarySwatch: Utils.createMaterialColor(Constants.primaryYellow),
+          appBarTheme: const AppBarTheme(
+            elevation: 0,
+            backgroundColor: Colors.white,
+          ),
+          scaffoldBackgroundColor: Constants.primaryOrangeBackground,
+          indicatorColor: Colors.white),
     );
   }
 }
