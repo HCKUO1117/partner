@@ -1,11 +1,14 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:partner/constants.dart';
 import 'package:partner/controllers/home_controller.dart';
 import 'package:partner/models/loading_status.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
+import 'package:partner/widgets/banner_widget.dart';
 import 'package:partner/widgets/case_card.dart';
 import 'package:partner/widgets/menu_list_button.dart';
+import 'package:partner/widgets/person_card.dart';
 import 'package:partner/widgets/search_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,11 +21,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController search = TextEditingController();
   HomeController homeController = Get.put(HomeController());
+  CarouselController carouselController = CarouselController();
 
   @override
   void initState() {
     super.initState();
     homeController.fetchCase();
+    homeController.fetchPerson();
+    homeController.fetchBanner();
   }
 
   @override
@@ -44,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget top() {
     return Container(
-      color: Colors.white,
       padding: const EdgeInsets.all(8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,44 +133,48 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget bottom() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          color: Colors.white,
-          height: 90,
-          width: double.maxFinite,
-        ),
-        Container(
-          height: 60,
-          width: double.maxFinite,
-          color: Constants.primaryOrange,
-          child: Row(
-            children: [
-              MenuListButton(
-                onTap: () {},
-                text: '首頁',
-              ),
-              MenuListButton(
-                onTap: () {},
-                text: '找需求',
-              ),
-              MenuListButton(
-                onTap: () {},
-                text: '找夥伴',
-              ),
-              MenuListButton(
-                onTap: () {},
-                text: '活動',
-              ),
-            ],
+    return Obx(
+      () => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            color: Colors.white,
+            height: 90,
+            width: double.maxFinite,
           ),
-        ),
-        Obx(
-          () => homePageBlock(
+          Container(
+            height: 60,
+            width: double.maxFinite,
+            color: Constants.primaryOrange,
+            child: Row(
+              children: [
+                MenuListButton(
+                  onTap: () {},
+                  text: '首頁',
+                ),
+                MenuListButton(
+                  onTap: () {},
+                  text: '找需求',
+                ),
+                MenuListButton(
+                  onTap: () {},
+                  text: '找夥伴',
+                ),
+                MenuListButton(
+                  onTap: () {},
+                  text: '活動',
+                ),
+              ],
+            ),
+          ),
+          BannerWidget(
+            status: homeController.loadingStatusBanner.value,
+            banners: homeController.banners,
+          ),
+          homePageBlock(
             title: '找需求',
-            status: homeController.loadingStatus.value,
+            status: homeController.loadingStatusCase.value,
             child: Wrap(
               children: [
                 for (var element in homeController.caseList)
@@ -175,18 +184,24 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-        ),
-        homePageBlock(
-          title: '找夥伴',
-          status: LoadingStatus.finish,
-          child: const SizedBox(),
-        ),
-        homePageBlock(
-          title: '找活動',
-          status: LoadingStatus.finish,
-          child: const SizedBox(),
-        ),
-      ],
+          homePageBlock(
+              title: '找夥伴',
+              status: homeController.loadingStatusPerson.value,
+              child: Wrap(
+                children: [
+                  for (var element in homeController.personList)
+                    PersonCard(
+                      model: element,
+                    )
+                ],
+              )),
+          homePageBlock(
+            title: '找活動',
+            status: LoadingStatus.finish,
+            child: const SizedBox(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -223,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 20,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
