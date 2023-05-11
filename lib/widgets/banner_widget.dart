@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:partner/constants.dart';
 import 'package:partner/models/banner_model.dart';
 import 'package:partner/models/loading_status.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class BannerWidget extends StatefulWidget {
   final LoadingStatus status;
@@ -49,12 +50,14 @@ class _BannerWidgetState extends State<BannerWidget> {
           ),
           const SizedBox(width: 16),
           Expanded(
-              child: Column(
-            children: [
-              CarouselSlider(
+            child: Column(
+              children: [
+                CarouselSlider(
                   items: widget.banners
                       .map((e) => InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              launchUrlString(e.url);
+                            },
                             child: Image.network(
                               e.image,
                               fit: BoxFit.contain,
@@ -79,31 +82,33 @@ class _BannerWidgetState extends State<BannerWidget> {
                       _current(index);
                     },
                     scrollDirection: Axis.horizontal,
-                  )),
-              Obx(
-                () => Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: widget.banners.asMap().entries.map((entry) {
-                    return GestureDetector(
-                      onTap: () {
-                        carouselController.animateToPage(entry.key);
-                      },
-                      child: Container(
-                        width: 12.0,
-                        height: 12.0,
-                        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Constants.primaryOrange
-                              .withOpacity(_current.value == entry.key ? 0.9 : 0.4),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                  ),
                 ),
-              ),
-            ],
-          )),
+                Obx(
+                  () => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: widget.banners.asMap().entries.map((entry) {
+                      return GestureDetector(
+                        onTap: () {
+                          carouselController.animateToPage(entry.key);
+                        },
+                        child: Container(
+                          width: 12.0,
+                          height: 12.0,
+                          margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Constants.primaryOrange
+                                .withOpacity(_current.value == entry.key ? 0.9 : 0.4),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(width: 16),
           IconButton(
             onPressed: () {

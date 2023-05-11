@@ -16,6 +16,7 @@ dependencies:
   intl: ^0.18.1
   cupertino_icons: ^1.0.2
   get: ^4.6.5
+  url_launcher: ^6.1.11
 
   #UI
   carousel_slider: ^4.2.1
