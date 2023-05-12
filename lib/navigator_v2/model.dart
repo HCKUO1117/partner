@@ -26,7 +26,7 @@ RoutePage getRoutePage({required String name}) {
       return RoutePage(
         name: "首頁",
         path: name,
-        builder: () => const HomeScreen(),
+        builder: () => HomeScreen(),
       );
     case '/account':
       return RoutePage(

@@ -8,33 +8,20 @@ import 'package:partner/models/loading_status.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/widgets/banner_widget.dart';
 import 'package:partner/widgets/case_card.dart';
+import 'package:partner/widgets/custom_action_chip.dart';
 import 'package:partner/widgets/menu_list_button.dart';
 import 'package:partner/widgets/person_card.dart';
 import 'package:partner/widgets/search_bar.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController search = TextEditingController();
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
 
   ///getX
-  HomeController homeController = Get.put(HomeController());
+  final HomeController homeController = Get.put(HomeController());
+
   final SizeController sizeController = Get.find();
 
-  CarouselController carouselController = CarouselController();
-
-  @override
-  void initState() {
-    super.initState();
-    homeController.fetchCase();
-    homeController.fetchPerson();
-    homeController.fetchBanner();
-  }
+  final CarouselController carouselController = CarouselController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom(),
 
               ///上方欄位
-              top(),
+              top(context),
             ],
           ),
         ),
@@ -56,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Widget top() {
+  Widget top(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -200,13 +187,38 @@ class _HomeScreenState extends State<HomeScreen> {
         homePageBlock(
           title: '找需求',
           status: homeController.loadingStatusCase.value,
-          child: Wrap(
-            alignment: WrapAlignment.center,
+          child: Column(
             children: [
-              for (var element in homeController.caseList)
-                CaseCard(
-                  model: element,
-                )
+              SizedBox(
+                height: 50,
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return CustomActionChip(
+                      choose: homeController.caseCurrentTag.value ==
+                          homeController.tagCategories[index].id,
+                      category: true,
+                      onTap: () {},
+                      label: homeController.tagCategories[index].name,
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 16);
+                  },
+                  itemCount: homeController.tagCategories.length,
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                ),
+              ),
+              Row(
+                children: [
+                  for (var element in homeController.caseList)
+                    Expanded(
+                      child: CaseCard(
+                        model: element,
+                      ),
+                    ),
+                ],
+              )
             ],
           ),
         ),
@@ -255,6 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Container(
       padding: const EdgeInsets.all(16),
+      constraints: const BoxConstraints(maxWidth: 1200),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

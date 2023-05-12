@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:partner/constants.dart';
 import 'package:partner/models/case_model.dart';
 
+import 'custom_action_chip.dart';
+
 class CaseCard extends StatelessWidget {
   final CaseModel model;
 
@@ -69,14 +71,9 @@ class CaseCard extends StatelessWidget {
                     for (var element in model.tags)
                       Padding(
                         padding: const EdgeInsets.all(2),
-                        child: ActionChip(
-                          onPressed: () {},
-                          label: Text(element.name),
-                          backgroundColor: Constants.primaryYellowBackground,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Constants.primaryYellow),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+                        child: CustomActionChip(
+                          onTap: () {},
+                          label: element.name,
                         ),
                       ),
                   ],

@@ -1,11 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:partner/models/banner_model.dart';
 import 'package:partner/models/case_model.dart';
 import 'package:partner/models/loading_status.dart';
 import 'package:partner/models/person_model.dart';
+import 'package:partner/models/tag_category_model.dart';
 import 'package:partner/models/tag_model.dart';
 
 class HomeController extends GetxController {
+  var tagCategories = <TagCategoryModel>[].obs;
+
+  TextEditingController search = TextEditingController();
+
   ///banner
   var loadingStatusBanner = LoadingStatus.finish.obs;
   var banners = <BannerModel>[].obs;
@@ -13,15 +19,53 @@ class HomeController extends GetxController {
   ///需求
   var loadingStatusCase = LoadingStatus.finish.obs;
   var caseList = <CaseModel>[].obs;
+  Rx<int?> caseCurrentTag = Rx(null);
 
   ///人才
   var loadingStatusPerson = LoadingStatus.finish.obs;
   var personList = <PersonModel>[].obs;
+  Rx<int?> personCurrentTag = Rx(null);
+
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    loadingStatusCase(LoadingStatus.loading);
+    loadingStatusPerson(LoadingStatus.loading);
+    await fetchTagCategory();
+
+    update();
+    await Future.wait([
+      fetchBanner(),
+      fetchPerson(),
+      fetchCase(),
+    ]);
+  }
+
+  Future<void> fetchTagCategory() async {
+    //TODO 假資料
+    tagCategories([
+      TagCategoryModel(id: 0, name: '123'),
+      TagCategoryModel(id: 1, name: '3123'),
+      TagCategoryModel(id: 2, name: '144323'),
+      TagCategoryModel(id: 3, name: '213'),
+      TagCategoryModel(id: 4, name: '12'),
+      TagCategoryModel(id: 5, name: '12'),
+      TagCategoryModel(id: 6, name: '12'),
+      TagCategoryModel(id: 7, name: '12'),
+      TagCategoryModel(id: 8, name: '12'),
+    ]);
+    if (tagCategories.isNotEmpty) {
+      caseCurrentTag(tagCategories.first.id);
+      personCurrentTag(tagCategories.first.id);
+      update();
+    }
+  }
 
   Future<void> fetchCase() async {
     loadingStatusCase(LoadingStatus.loading);
     update();
     await Future.delayed(Duration(seconds: 1), () {
+      //TODO 假資料
       caseList([
         CaseModel(
           title: 'title',
@@ -100,6 +144,7 @@ class HomeController extends GetxController {
     loadingStatusBanner(LoadingStatus.loading);
     update();
     await Future.delayed(Duration(seconds: 1), () {
+      //TODO 假資料
       banners([
         BannerModel(
           url:
@@ -124,6 +169,7 @@ class HomeController extends GetxController {
     loadingStatusPerson(LoadingStatus.loading);
     update();
     await Future.delayed(Duration(seconds: 2), () {
+      //TODO 假資料
       personList([
         PersonModel(
           id: 'id',

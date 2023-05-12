@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:partner/models/person_model.dart';
 
 import '../constants.dart';
+import 'custom_action_chip.dart';
 
 class PersonCard extends StatelessWidget {
   final PersonModel model;
@@ -10,7 +11,6 @@ class PersonCard extends StatelessWidget {
     Key? key,
     required this.model,
   }) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +64,9 @@ class PersonCard extends StatelessWidget {
                     for (var element in model.tags)
                       Padding(
                         padding: const EdgeInsets.all(2),
-                        child: ActionChip(
-                          onPressed: () {},
-                          label: Text(element.name),
-                          backgroundColor: Constants.primaryYellowBackground,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Constants.primaryYellow),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+                        child: CustomActionChip(
+                          onTap: () {},
+                          label:element.name,
                         ),
                       ),
                   ],
