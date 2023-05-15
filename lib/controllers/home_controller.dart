@@ -4,12 +4,10 @@ import 'package:partner/models/banner_model.dart';
 import 'package:partner/models/case_model.dart';
 import 'package:partner/models/loading_status.dart';
 import 'package:partner/models/person_model.dart';
-import 'package:partner/models/tag_category_model.dart';
+import 'package:partner/models/category_model.dart';
 import 'package:partner/models/tag_model.dart';
 
-class HomeController extends GetxController {
-  var tagCategories = <TagCategoryModel>[].obs;
-
+class HomeController extends GetxController with GetSingleTickerProviderStateMixin {
   TextEditingController search = TextEditingController();
 
   ///banner
@@ -18,8 +16,9 @@ class HomeController extends GetxController {
 
   ///需求
   var loadingStatusCase = LoadingStatus.finish.obs;
-  var caseList = <CaseModel>[].obs;
+  var caseCategoryList = <CategoryModel>[].obs;
   Rx<int?> caseCurrentTag = Rx(null);
+  TabController? caseTabController;
 
   ///人才
   var loadingStatusPerson = LoadingStatus.finish.obs;
@@ -29,11 +28,7 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    loadingStatusCase(LoadingStatus.loading);
-    loadingStatusPerson(LoadingStatus.loading);
-    await fetchTagCategory();
 
-    update();
     await Future.wait([
       fetchBanner(),
       fetchPerson(),
@@ -41,33 +36,14 @@ class HomeController extends GetxController {
     ]);
   }
 
-  Future<void> fetchTagCategory() async {
-    //TODO 假資料
-    tagCategories([
-      TagCategoryModel(id: 0, name: '123'),
-      TagCategoryModel(id: 1, name: '3123'),
-      TagCategoryModel(id: 2, name: '144323'),
-      TagCategoryModel(id: 3, name: '213'),
-      TagCategoryModel(id: 4, name: '12'),
-      TagCategoryModel(id: 5, name: '12'),
-      TagCategoryModel(id: 6, name: '12'),
-      TagCategoryModel(id: 7, name: '12'),
-      TagCategoryModel(id: 8, name: '12'),
-    ]);
-    if (tagCategories.isNotEmpty) {
-      caseCurrentTag(tagCategories.first.id);
-      personCurrentTag(tagCategories.first.id);
-      update();
-    }
-  }
 
   Future<void> fetchCase() async {
     loadingStatusCase(LoadingStatus.loading);
     update();
     await Future.delayed(Duration(seconds: 1), () {
       //TODO 假資料
-      caseList([
-        CaseModel(
+      caseCategoryList([
+        CategoryModel(id: 0, name: '學習',cases: [ CaseModel(
           title: 'title',
           content: 'content',
           tags: [TagModel(id: '1', name: 'name')],
@@ -76,66 +52,434 @@ class HomeController extends GetxController {
           createdTime: DateTime.now(),
           creatorId: '123',
           creatorName: '321',
+          category: 0,
         ),
-        CaseModel(
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+        CategoryModel(id: 1, name: '運動',cases: [ CaseModel(
           title: 'title',
           content: 'content',
-          tags: [
-            TagModel(id: '1', name: 'name'),
-            TagModel(id: '1', name: 'name'),
-            TagModel(id: '1', name: 'name'),
-            TagModel(id: '1', name: 'name'),
-            TagModel(id: '1', name: 'name'),
-          ],
+          tags: [TagModel(id: '1', name: 'name')],
           images: [],
           location: 'location',
           createdTime: DateTime.now(),
           creatorId: '123',
           creatorName: '321',
+          category: 0,
         ),
-        CaseModel(
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+        CategoryModel(id: 2, name: '創業',cases: [ CaseModel(
           title: 'title',
           content: 'content',
-          tags: [],
+          tags: [TagModel(id: '1', name: 'name')],
           images: [],
           location: 'location',
           createdTime: DateTime.now(),
           creatorId: '123',
           creatorName: '321',
+          category: 0,
         ),
-        CaseModel(
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+        CategoryModel(id: 3, name: '工作',cases: [ CaseModel(
           title: 'title',
           content: 'content',
-          tags: [],
+          tags: [TagModel(id: '1', name: 'name')],
           images: [],
           location: 'location',
           createdTime: DateTime.now(),
           creatorId: '123',
           creatorName: '321',
+          category: 0,
         ),
-        CaseModel(
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+        CategoryModel(id: 4, name: '旅遊',cases: [ CaseModel(
           title: 'title',
           content: 'content',
-          tags: [],
+          tags: [TagModel(id: '1', name: 'name')],
           images: [],
           location: 'location',
           createdTime: DateTime.now(),
           creatorId: '123',
           creatorName: '321',
+          category: 0,
         ),
-        CaseModel(
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+        CategoryModel(id: 5, name: '挑戰',cases: [ CaseModel(
           title: 'title',
           content: 'content',
-          tags: [],
+          tags: [TagModel(id: '1', name: 'name')],
           images: [],
           location: 'location',
           createdTime: DateTime.now(),
           creatorId: '123',
           creatorName: '321',
+          category: 0,
         ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+        CategoryModel(id: 6, name: '聊天',cases: [ CaseModel(
+          title: 'title',
+          content: 'content',
+          tags: [TagModel(id: '1', name: 'name')],
+          images: [],
+          location: 'location',
+          createdTime: DateTime.now(),
+          creatorId: '123',
+          creatorName: '321',
+          category: 0,
+        ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+        CategoryModel(id: 7, name: '娛樂',cases: [ CaseModel(
+          title: 'title',
+          content: 'content',
+          tags: [TagModel(id: '1', name: 'name')],
+          images: [],
+          location: 'location',
+          createdTime: DateTime.now(),
+          creatorId: '123',
+          creatorName: '321',
+          category: 0,
+        ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+        CategoryModel(id: 8, name: '美食',cases: [ CaseModel(
+          title: 'title',
+          content: 'content',
+          tags: [TagModel(id: '1', name: 'name')],
+          images: [],
+          location: 'location',
+          createdTime: DateTime.now(),
+          creatorId: '123',
+          creatorName: '321',
+          category: 0,
+        ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+        CategoryModel(id: 9, name: '競賽',cases: [ CaseModel(
+          title: 'title',
+          content: 'content',
+          tags: [TagModel(id: '1', name: 'name')],
+          images: [],
+          location: 'location',
+          createdTime: DateTime.now(),
+          creatorId: '123',
+          creatorName: '321',
+          category: 0,
+        ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+        CategoryModel(id: 10, name: '其他',cases: [ CaseModel(
+          title: 'title',
+          content: 'content',
+          tags: [TagModel(id: '1', name: 'name')],
+          images: [],
+          location: 'location',
+          createdTime: DateTime.now(),
+          creatorId: '123',
+          creatorName: '321',
+          category: 0,
+        ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+              TagModel(id: '1', name: 'name'),
+            ],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),
+          CaseModel(
+            title: 'title',
+            content: 'content',
+            tags: [],
+            images: [],
+            location: 'location',
+            createdTime: DateTime.now(),
+            creatorId: '123',
+            creatorName: '321',
+            category: 0,
+          ),],),
+
       ]);
     });
-
+    caseCurrentTag(caseCategoryList.first.id);
+    caseTabController = TabController(
+      length: caseCategoryList.length,
+      vsync: this,
+    );
     loadingStatusCase(LoadingStatus.finish);
     update();
   }

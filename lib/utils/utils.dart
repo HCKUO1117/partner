@@ -20,4 +20,14 @@ class Utils {
     }
     return MaterialColor(color.value, swatch);
   }
+
+  static int listLengthCounter({
+    required int listLength,
+    required int maxLength,
+  }) {
+    if (maxLength > listLength) {
+      return listLength;
+    }
+    return maxLength;
+  }
 }

@@ -9,6 +9,7 @@ class CaseModel {
   String creatorId;
   String creatorName;
   DateTime createdTime;
+  int category;
 
   CaseModel({
     required this.title,
@@ -19,5 +20,6 @@ class CaseModel {
     required this.creatorId,
     required this.creatorName,
     required this.createdTime,
+    required this.category
   });
 }

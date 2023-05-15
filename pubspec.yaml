@@ -23,6 +23,7 @@ dependencies:
   shimmer: ^2.0.0
   smooth_page_indicator: ^1.1.0
   scroll_to_index: ^3.0.1
+  buttons_tabbar: ^1.3.6
 
 dev_dependencies:
   flutter_test:

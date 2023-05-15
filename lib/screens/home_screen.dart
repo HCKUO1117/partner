@@ -1,3 +1,4 @@
+import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:partner/controllers/home_controller.dart';
 import 'package:partner/controllers/size_controller.dart';
 import 'package:partner/models/loading_status.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
+import 'package:partner/utils/utils.dart';
 import 'package:partner/widgets/banner_widget.dart';
 import 'package:partner/widgets/case_card.dart';
 import 'package:partner/widgets/custom_action_chip.dart';
@@ -187,39 +189,71 @@ class HomeScreen extends StatelessWidget {
         homePageBlock(
           title: '找需求',
           status: homeController.loadingStatusCase.value,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 50,
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return CustomActionChip(
-                      choose: homeController.caseCurrentTag.value ==
-                          homeController.tagCategories[index].id,
-                      category: true,
-                      onTap: () {},
-                      label: homeController.tagCategories[index].name,
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(width: 16);
-                  },
-                  itemCount: homeController.tagCategories.length,
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                ),
-              ),
-              Row(
-                children: [
-                  for (var element in homeController.caseList)
-                    Expanded(
-                      child: CaseCard(
-                        model: element,
-                      ),
+          child: DefaultTabController(
+            length: homeController.caseCategoryList.length,
+            child: Column(
+              children: [
+                if (homeController.caseTabController != null)
+                  ButtonsTabBar(
+                    controller: homeController.caseTabController,
+                    backgroundColor: Constants.primaryOrange,
+                    unselectedBackgroundColor: Colors.white,
+                    labelStyle: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
-                ],
-              )
-            ],
+                    unselectedLabelStyle: TextStyle(
+                      color: Constants.primaryOrange,
+                    ),
+                    borderWidth: 1,
+                    unselectedBorderColor: Constants.primaryOrange,
+                    radius: 10,
+                    borderColor: Constants.primaryOrange,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 32),
+                    onTap: (index) {
+                      homeController.caseCurrentTag(index);
+                    },
+                    tabs: [
+                      for (int i = 0; i < homeController.caseCategoryList.length; i++)
+                        Tab(
+                          text: homeController.caseCategoryList[i].name,
+                        )
+                    ],
+                  ),
+                SizedBox(
+                  height: 400,
+                  child: TabBarView(
+                    controller: homeController.caseTabController,
+                    children: [
+                      for (int i = 0; i < homeController.caseCategoryList.length; i++)
+                        Row(
+                          children: [
+                            for (int j = 0;
+                                j <
+                                    (sizeController.width.value > 900
+                                        ? homeController.caseCategoryList[i].cases!.length
+                                        : sizeController.width.value > 600
+                                            ? Utils.listLengthCounter(
+                                                listLength: homeController
+                                                    .caseCategoryList[i].cases!.length,
+                                                maxLength: 2)
+                                            : Utils.listLengthCounter(
+                                                listLength: homeController
+                                                    .caseCategoryList[i].cases!.length,
+                                                maxLength: 1));
+                                j++)
+                              Expanded(
+                                child: CaseCard(
+                                  model: homeController.caseCategoryList[i].cases![j],
+                                ),
+                              ),
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         homePageBlock(
