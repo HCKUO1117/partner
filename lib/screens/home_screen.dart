@@ -8,6 +8,7 @@ import 'package:partner/controllers/size_controller.dart';
 import 'package:partner/models/loading_status.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/utils/utils.dart';
+import 'package:partner/widgets/article_card.dart';
 import 'package:partner/widgets/banner_widget.dart';
 import 'package:partner/widgets/case_card.dart';
 import 'package:partner/widgets/menu_list_button.dart';
@@ -176,7 +177,7 @@ class HomeScreen extends StatelessWidget {
               ),
               MenuListButton(
                 onTap: () {},
-                text: '活動',
+                text: '文章',
               ),
             ],
           ),
@@ -275,20 +276,89 @@ class HomeScreen extends StatelessWidget {
                       (sizeController.width.value > 900
                           ? Utils.listLengthCounter(
                               listLength: homeController.personList.length, maxLength: 10)
-                          : sizeController.width.value > 600 ? Utils.listLengthCounter(
-                              listLength: homeController.personList.length, maxLength: 8) : Utils.listLengthCounter(
-                          listLength: homeController.personList.length, maxLength: 6));
+                          : sizeController.width.value > 600
+                              ? Utils.listLengthCounter(
+                                  listLength: homeController.personList.length, maxLength: 8)
+                              : Utils.listLengthCounter(
+                                  listLength: homeController.personList.length, maxLength: 6));
                   i++)
-                  PersonCard(
-                    model: homeController.personList[i],
-                  ),
+                PersonCard(
+                  model: homeController.personList[i],
+                ),
             ],
           ),
         ),
         homePageBlock(
-          title: '找活動',
-          status: LoadingStatus.finish,
-          child: const SizedBox(),
+          title: '文章',
+          status: homeController.loadingStatusArticle.value,
+          child:  DefaultTabController(
+            length: homeController.articleCategoryList.length,
+            child: Column(
+              children: [
+                if (homeController.articleTabController != null)
+                  ButtonsTabBar(
+                    controller: homeController.articleTabController,
+                    backgroundColor: Constants.primaryOrange,
+                    unselectedBackgroundColor: Colors.white,
+                    labelStyle: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    unselectedLabelStyle: TextStyle(
+                      color: Constants.primaryOrange,
+                    ),
+                    borderWidth: 1,
+                    unselectedBorderColor: Constants.primaryOrange,
+                    radius: 10,
+                    borderColor: Constants.primaryOrange,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 32),
+                    onTap: (index) {
+                      homeController.articleCurrentTag(index);
+                    },
+                    tabs: [
+                      for (int i = 0; i < homeController.articleCategoryList.length; i++)
+                        Tab(
+                          text: homeController.articleCategoryList[i].name,
+                        )
+                    ],
+                  ),
+                SizedBox(
+                  height: 400,
+                  child: TabBarView(
+                    controller: homeController.articleTabController,
+                    children: [
+                      for (int i = 0; i < homeController.articleCategoryList.length; i++)
+                        Row(
+                          children: [
+                            for (int j = 0;
+                            j <
+                                (sizeController.width.value > 900
+                                    ? homeController.articleCategoryList[i].articles!.length
+                                    : sizeController.width.value > 600
+                                    ? Utils.listLengthCounter(
+                                  listLength: homeController
+                                      .articleCategoryList[i].articles!.length,
+                                  maxLength: 2,
+                                )
+                                    : Utils.listLengthCounter(
+                                  listLength: homeController
+                                      .articleCategoryList[i].articles!.length,
+                                  maxLength: 1,
+                                ));
+                            j++)
+                              Expanded(
+                                child: ArticleCard(
+                                  model: homeController.articleCategoryList[i].articles![j],
+                                ),
+                              ),
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );
