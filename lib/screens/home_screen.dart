@@ -10,7 +10,6 @@ import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/utils/utils.dart';
 import 'package:partner/widgets/banner_widget.dart';
 import 'package:partner/widgets/case_card.dart';
-import 'package:partner/widgets/custom_action_chip.dart';
 import 'package:partner/widgets/menu_list_button.dart';
 import 'package:partner/widgets/person_card.dart';
 import 'package:partner/widgets/search_bar.dart';
@@ -236,11 +235,13 @@ class HomeScreen extends StatelessWidget {
                                             ? Utils.listLengthCounter(
                                                 listLength: homeController
                                                     .caseCategoryList[i].cases!.length,
-                                                maxLength: 2)
+                                                maxLength: 2,
+                                              )
                                             : Utils.listLengthCounter(
                                                 listLength: homeController
                                                     .caseCategoryList[i].cases!.length,
-                                                maxLength: 1));
+                                                maxLength: 1,
+                                              ));
                                 j++)
                               Expanded(
                                 child: CaseCard(
@@ -257,16 +258,33 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         homePageBlock(
-            title: '找夥伴',
-            status: homeController.loadingStatusPerson.value,
-            child: Wrap(
-              children: [
-                for (var element in homeController.personList)
+          title: '找夥伴',
+          status: homeController.loadingStatusPerson.value,
+          child: GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            childAspectRatio: 9 / 16,
+            crossAxisCount: sizeController.width.value > 900
+                ? 5
+                : sizeController.width.value > 600
+                    ? 4
+                    : 3,
+            children: [
+              for (int i = 0;
+                  i <
+                      (sizeController.width.value > 900
+                          ? Utils.listLengthCounter(
+                              listLength: homeController.personList.length, maxLength: 10)
+                          : sizeController.width.value > 600 ? Utils.listLengthCounter(
+                              listLength: homeController.personList.length, maxLength: 8) : Utils.listLengthCounter(
+                          listLength: homeController.personList.length, maxLength: 6));
+                  i++)
                   PersonCard(
-                    model: element,
-                  )
-              ],
-            )),
+                    model: homeController.personList[i],
+                  ),
+            ],
+          ),
+        ),
         homePageBlock(
           title: '找活動',
           status: LoadingStatus.finish,

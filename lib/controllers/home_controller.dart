@@ -519,6 +519,58 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
           id: 'id',
           name: 'name',
           image: 'image',
+          intro: 'introintrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointrointro',
+          tags: [
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+          ],
+        ),
+        PersonModel(
+          id: 'id',
+          name: 'name',
+          image: 'image',
+          intro: 'intro',
+          tags: [
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+          ],
+        ),
+        PersonModel(
+          id: 'id',
+          name: 'name',
+          image: 'image',
+          intro: 'intro',
+          tags: [
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+          ],
+        ),
+        PersonModel(
+          id: 'id',
+          name: 'name',
+          image: 'image',
+          intro: 'intro',
+          tags: [
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+          ],
+        ),
+        PersonModel(
+          id: 'id',
+          name: 'name',
+          image: 'image',
           intro: 'intro',
           tags: [
             TagModel(id: '1', name: 'name'),
@@ -580,6 +632,21 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
             TagModel(id: '1', name: 'name'),
           ],
         ),
+        PersonModel(
+          id: 'id',
+          name: 'name',
+          image: 'image',
+          intro: 'intro',
+          tags: [
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+            TagModel(id: '1', name: 'name'),
+          ],
+        ),
+
+
       ]);
     });
 

@@ -19,12 +19,18 @@ class CustomActionChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return ActionChip(
       onPressed: onTap,
-      label: Text(label,style: TextStyle(fontSize: category ? 18: null,color: choose ? Colors.white:Constants.primaryOrange),),
+      label: Text(
+        label,
+        style: TextStyle(
+          fontSize: category ? 18 : 12,
+          color: choose ? Colors.white : Constants.primaryOrange,
+        ),
+      ),
       padding: category ? const EdgeInsets.all(8) : null,
       backgroundColor: choose ? Constants.primaryOrange : Constants.primaryYellowBackground,
       shape: RoundedRectangleBorder(
         side: BorderSide(color: Constants.primaryOrange),
-        borderRadius:category ?  BorderRadius.circular(5): BorderRadius.circular(20),
+        borderRadius: category ? BorderRadius.circular(5) : BorderRadius.circular(20),
       ),
     );
   }

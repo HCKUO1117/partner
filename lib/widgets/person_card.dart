@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:partner/models/person_model.dart';
 
 import '../constants.dart';
+import '../controllers/size_controller.dart';
+import '../utils/utils.dart';
 import 'custom_action_chip.dart';
 
 class PersonCard extends StatelessWidget {
@@ -14,68 +18,88 @@ class PersonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      constraints: const BoxConstraints(maxWidth: 300),
-      height: 350,
-      child: Theme(
-        data: ThemeData(),
-        child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+
+    return LayoutBuilder(builder: (context,constraints){
+      double width = constraints.maxWidth;
+      print(constraints.maxWidth);
+      return Container(
+        padding: const EdgeInsets.all(4),
+        child: Theme(
+          data: ThemeData(),
+          child: ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    color: Colors.grey,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  model.name,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                  const SizedBox(height: 8),
+                  Text(
+                    model.name,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: Text(
-                    model.intro,
-                    style: const TextStyle(color: Colors.black54),
+                  const SizedBox(height: 8),
+                  Expanded(
+                    child: Text(
+                      model.intro,
+                      style: const TextStyle(color: Colors.black54),
+                    ),
                   ),
-                ),
-                Wrap(
-                  clipBehavior: Clip.antiAlias,
-                  children: [
-                    for (var element in model.tags)
-                      Padding(
-                        padding: const EdgeInsets.all(2),
-                        child: CustomActionChip(
-                          onTap: () {},
-                          label:element.name,
+                  Row(
+                    children: [
+                      for (int j = 0;
+                      j <
+                          (width > 200
+                              ? Utils.listLengthCounter(
+                            listLength: model.tags.length,
+                            maxLength: 3,
+                          )
+                              : width > 160
+                              ? Utils.listLengthCounter(
+                            listLength: model.tags.length,
+                            maxLength: 2,
+                          )
+                              : Utils.listLengthCounter(
+                            listLength: model.tags.length,
+                            maxLength: 1,
+                          ));
+                      j++)
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(2),
+                            child: CustomActionChip(
+                              onTap: () {},
+                              label: model.tags[j].name,
+                            ),
+                          ),
                         ),
-                      ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
