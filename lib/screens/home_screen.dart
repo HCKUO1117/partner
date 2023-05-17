@@ -1,10 +1,10 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:partner/constants.dart';
 import 'package:partner/controllers/home_controller.dart';
 import 'package:partner/controllers/size_controller.dart';
+import 'package:partner/controllers/user_controller.dart';
 import 'package:partner/models/loading_status.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/utils/utils.dart';
@@ -20,10 +20,8 @@ class HomeScreen extends StatelessWidget {
 
   ///getX
   final HomeController homeController = Get.put(HomeController());
-
   final SizeController sizeController = Get.find();
-
-  final CarouselController carouselController = CarouselController();
+  final UserController userController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +289,7 @@ class HomeScreen extends StatelessWidget {
         homePageBlock(
           title: '文章',
           status: homeController.loadingStatusArticle.value,
-          child:  DefaultTabController(
+          child: DefaultTabController(
             length: homeController.articleCategoryList.length,
             child: Column(
               children: [
@@ -331,21 +329,21 @@ class HomeScreen extends StatelessWidget {
                         Row(
                           children: [
                             for (int j = 0;
-                            j <
-                                (sizeController.width.value > 900
-                                    ? homeController.articleCategoryList[i].articles!.length
-                                    : sizeController.width.value > 600
-                                    ? Utils.listLengthCounter(
-                                  listLength: homeController
-                                      .articleCategoryList[i].articles!.length,
-                                  maxLength: 2,
-                                )
-                                    : Utils.listLengthCounter(
-                                  listLength: homeController
-                                      .articleCategoryList[i].articles!.length,
-                                  maxLength: 1,
-                                ));
-                            j++)
+                                j <
+                                    (sizeController.width.value > 900
+                                        ? homeController.articleCategoryList[i].articles!.length
+                                        : sizeController.width.value > 600
+                                            ? Utils.listLengthCounter(
+                                                listLength: homeController
+                                                    .articleCategoryList[i].articles!.length,
+                                                maxLength: 2,
+                                              )
+                                            : Utils.listLengthCounter(
+                                                listLength: homeController
+                                                    .articleCategoryList[i].articles!.length,
+                                                maxLength: 1,
+                                              ));
+                                j++)
                               Expanded(
                                 child: ArticleCard(
                                   model: homeController.articleCategoryList[i].articles![j],

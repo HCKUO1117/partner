@@ -9,4 +9,7 @@ class Constants {
   ///routes
   static String homeRoute = '/';
   static String accountRoute = '/account';
+
+  ///params
+  static const String token = 'token';
 }
