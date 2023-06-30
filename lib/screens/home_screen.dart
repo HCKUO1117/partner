@@ -89,41 +89,68 @@ class HomeScreen extends StatelessWidget {
               Column(
                 children: [
                   const SizedBox(height: 13),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: PopupMenuButton(
-                        onSelected: (v) {
-                          AppRouterDelegate.of(context).pushNamed('/account');
-                          // HtmlUtils.push(Constants.accountRoute);
-                          // Navigator.pushNamed(context, Constants.accountRoute);
-                        },
-                        itemBuilder: (context) => [
-                          const PopupMenuItem(
-                            value: 1,
-                            child: Text('123'),
-                          )
-                        ],
-                        tooltip: '',
-                        position: PopupMenuPosition.under,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2,
-                                color: Constants.primaryOrange,
-                              ),
-                              borderRadius: BorderRadius.circular(50)),
-                          padding: const EdgeInsets.all(8),
-                          child: Icon(
-                            Icons.person_outline,
-                            size: 30,
-                            color: Constants.primaryOrange,
+                  if (userController.isLogin)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: PopupMenuButton(
+                          onSelected: (v) {
+                            AppRouterDelegate.of(context).pushNamed('/account');
+                            // HtmlUtils.push(Constants.accountRoute);
+                            // Navigator.pushNamed(context, Constants.accountRoute);
+                          },
+                          itemBuilder: (context) => [
+                            const PopupMenuItem(
+                              value: 1,
+                              child: Text('123'),
+                            )
+                          ],
+                          tooltip: '',
+                          position: PopupMenuPosition.under,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 2,
+                                  color: Constants.primaryOrange,
+                                ),
+                                borderRadius: BorderRadius.circular(50)),
+                            padding: const EdgeInsets.all(8),
+                            child: Icon(
+                              Icons.person_outline,
+                              size: 30,
+                              color: Constants.primaryOrange,
+                            ),
                           ),
                         ),
                       ),
+                    )
+                  else
+                    Row(
+                      children: [
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            '登入',
+                            style: TextStyle(
+                              color: Constants.primaryOrange,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            '註冊',
+                            style: TextStyle(
+                              color: Constants.primaryOrange,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
                 ],
               ),
             ],
