@@ -6,14 +6,13 @@ import 'package:partner/controllers/home_controller.dart';
 import 'package:partner/controllers/size_controller.dart';
 import 'package:partner/controllers/user_controller.dart';
 import 'package:partner/models/loading_status.dart';
-import 'package:partner/navigator_v2/router_delegate.dart';
+import 'package:partner/screens/common/layout_with_topper_page.dart';
 import 'package:partner/utils/utils.dart';
 import 'package:partner/widgets/article_card.dart';
 import 'package:partner/widgets/banner_widget.dart';
 import 'package:partner/widgets/case_card.dart';
 import 'package:partner/widgets/menu_list_button.dart';
 import 'package:partner/widgets/person_card.dart';
-import 'package:partner/widgets/search_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -25,162 +24,14 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      sizeController.width(MediaQuery.of(context).size.width);
-      return Scaffold(
-        body: SingleChildScrollView(
-          child: Stack(
-            children: [
-              ///下方頁面
-              bottom(),
-
-              ///上方欄位
-              top(context),
-            ],
-          ),
-        ),
-      );
-    });
-  }
-
-  Widget top(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Theme(
-                      data: ThemeData(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                      ),
-                      child: InkWell(
-                        onTap: () {},
-                        splashFactory: NoSplash.splashFactory,
-                        child: Image.asset(
-                          'assets/images/logo_hori.png',
-                          height: 70,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    if (sizeController.width > 600)
-                      Flexible(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 13),
-                            SearchBar(
-                              onSearch: (value) {},
-                            )
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 16),
-              Column(
-                children: [
-                  const SizedBox(height: 13),
-                  if (userController.isLogin)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: PopupMenuButton(
-                          onSelected: (v) {
-                            AppRouterDelegate.of(context).pushNamed('/account');
-                            // HtmlUtils.push(Constants.accountRoute);
-                            // Navigator.pushNamed(context, Constants.accountRoute);
-                          },
-                          itemBuilder: (context) => [
-                            const PopupMenuItem(
-                              value: 1,
-                              child: Text('123'),
-                            )
-                          ],
-                          tooltip: '',
-                          position: PopupMenuPosition.under,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 2,
-                                  color: Constants.primaryOrange,
-                                ),
-                                borderRadius: BorderRadius.circular(50)),
-                            padding: const EdgeInsets.all(8),
-                            child: Icon(
-                              Icons.person_outline,
-                              size: 30,
-                              color: Constants.primaryOrange,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  else
-                    Row(
-                      children: [
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            '登入',
-                            style: TextStyle(
-                              color: Constants.primaryOrange,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            '註冊',
-                            style: TextStyle(
-                              color: Constants.primaryOrange,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
-              ),
-            ],
-          ),
-          if (sizeController.width <= 600)
-            Flexible(
-              child: Column(
-                children: [
-                  const SizedBox(height: 13),
-                  SearchBar(
-                    onSearch: (value) {},
-                  )
-                ],
-              ),
-            ),
-        ],
-      ),
-    );
+    return LayoutWithTopperPage(bottom: bottom());
   }
 
   Widget bottom() {
-    return Column(
+    return Obx((){return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-          color: Colors.white,
-          height: sizeController.width > 600 ? 90 : 150,
-          width: double.maxFinite,
-        ),
         Container(
           height: 60,
           width: double.maxFinite,
@@ -254,21 +105,21 @@ class HomeScreen extends StatelessWidget {
                         Row(
                           children: [
                             for (int j = 0;
-                                j <
-                                    (sizeController.width.value > 900
-                                        ? homeController.caseCategoryList[i].cases!.length
-                                        : sizeController.width.value > 600
-                                            ? Utils.listLengthCounter(
-                                                listLength: homeController
-                                                    .caseCategoryList[i].cases!.length,
-                                                maxLength: 2,
-                                              )
-                                            : Utils.listLengthCounter(
-                                                listLength: homeController
-                                                    .caseCategoryList[i].cases!.length,
-                                                maxLength: 1,
-                                              ));
-                                j++)
+                            j <
+                                (sizeController.width.value > 900
+                                    ? homeController.caseCategoryList[i].cases!.length
+                                    : sizeController.width.value > 600
+                                    ? Utils.listLengthCounter(
+                                  listLength: homeController
+                                      .caseCategoryList[i].cases!.length,
+                                  maxLength: 2,
+                                )
+                                    : Utils.listLengthCounter(
+                                  listLength: homeController
+                                      .caseCategoryList[i].cases!.length,
+                                  maxLength: 1,
+                                ));
+                            j++)
                               Expanded(
                                 child: CaseCard(
                                   model: homeController.caseCategoryList[i].cases![j],
@@ -293,20 +144,20 @@ class HomeScreen extends StatelessWidget {
             crossAxisCount: sizeController.width.value > 900
                 ? 5
                 : sizeController.width.value > 600
-                    ? 4
-                    : 3,
+                ? 4
+                : 3,
             children: [
               for (int i = 0;
-                  i <
-                      (sizeController.width.value > 900
-                          ? Utils.listLengthCounter(
-                              listLength: homeController.personList.length, maxLength: 10)
-                          : sizeController.width.value > 600
-                              ? Utils.listLengthCounter(
-                                  listLength: homeController.personList.length, maxLength: 8)
-                              : Utils.listLengthCounter(
-                                  listLength: homeController.personList.length, maxLength: 6));
-                  i++)
+              i <
+                  (sizeController.width.value > 900
+                      ? Utils.listLengthCounter(
+                      listLength: homeController.personList.length, maxLength: 10)
+                      : sizeController.width.value > 600
+                      ? Utils.listLengthCounter(
+                      listLength: homeController.personList.length, maxLength: 8)
+                      : Utils.listLengthCounter(
+                      listLength: homeController.personList.length, maxLength: 6));
+              i++)
                 PersonCard(
                   model: homeController.personList[i],
                 ),
@@ -356,21 +207,21 @@ class HomeScreen extends StatelessWidget {
                         Row(
                           children: [
                             for (int j = 0;
-                                j <
-                                    (sizeController.width.value > 900
-                                        ? homeController.articleCategoryList[i].articles!.length
-                                        : sizeController.width.value > 600
-                                            ? Utils.listLengthCounter(
-                                                listLength: homeController
-                                                    .articleCategoryList[i].articles!.length,
-                                                maxLength: 2,
-                                              )
-                                            : Utils.listLengthCounter(
-                                                listLength: homeController
-                                                    .articleCategoryList[i].articles!.length,
-                                                maxLength: 1,
-                                              ));
-                                j++)
+                            j <
+                                (sizeController.width.value > 900
+                                    ? homeController.articleCategoryList[i].articles!.length
+                                    : sizeController.width.value > 600
+                                    ? Utils.listLengthCounter(
+                                  listLength: homeController
+                                      .articleCategoryList[i].articles!.length,
+                                  maxLength: 2,
+                                )
+                                    : Utils.listLengthCounter(
+                                  listLength: homeController
+                                      .articleCategoryList[i].articles!.length,
+                                  maxLength: 1,
+                                ));
+                            j++)
                               Expanded(
                                 child: ArticleCard(
                                   model: homeController.articleCategoryList[i].articles![j],
@@ -386,7 +237,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ],
-    );
+    );});
   }
 
   Widget homePageBlock({
