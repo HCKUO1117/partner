@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:partner/constants.dart';
+import 'package:partner/controllers/user_controller.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/screens/common/layout_with_topper_page.dart';
+import 'package:partner/screens/common/loading_layout.dart';
 import 'package:partner/utils/translation.dart';
 import 'package:partner/widgets/list_button.dart';
 
@@ -49,10 +51,12 @@ extension AccountPagePathEx on AccountPagePath {
 class AccountPage extends StatelessWidget {
   final String path;
 
-  const AccountPage({
+  AccountPage({
     Key? key,
     required this.path,
   }) : super(key: key);
+
+  final UserController userController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +84,14 @@ class AccountPage extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(child: Card()),
+          Obx(
+            () => Expanded(
+              child: LoadingLayout(
+                state: userController.accountPageState.value,
+                child: Card(),
+              ),
+            ),
+          ),
         ],
       ),
     );

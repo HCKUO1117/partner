@@ -30,4 +30,8 @@ class Utils {
     }
     return maxLength;
   }
+
+  static Future<void> delay({int? second}) async {
+    await Future.delayed(Duration(seconds: second ?? 1));
+  }
 }
