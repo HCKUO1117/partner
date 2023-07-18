@@ -7,9 +7,20 @@ class Constants {
   static Color primaryYellowBackground = const Color(0xffffde59).withOpacity(0.1);
 
   ///routes
-  static String homeRoute = '/';
-  static String accountRoute = '/account';
+  //home
+  static const String homeRoute = '/';
+  //account
+  static const String accountRoute = '/account';
+  static const String accountInfoRoute = '/account/info';
+  static const String accountResumeRoute = '/account/resume';
+  static const String accountArticleRoute = '/account/article';
+  static const String accountMyCasesRoute = '/account/my_cases';
+  static const String accountInviteRoute = '/account/invite';
 
   ///params
   static const String token = 'token';
+
+  static const double maxWidth = 1200;
+  static const double firstChangeWidth = 900;
+  static const double secondChangeWidth = 600;
 }

@@ -3,6 +3,7 @@ import 'package:partner/constants.dart';
 import 'package:partner/controllers/size_controller.dart';
 import 'package:partner/controllers/user_controller.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
+import 'package:partner/utils/translation.dart';
 import 'package:partner/utils/utils.dart';
 import 'package:get/get.dart';
 
@@ -23,6 +24,9 @@ class App extends StatelessWidget {
     return GetMaterialApp.router(
       title: 'Partner 找夥伴、找活動、學技能',
       debugShowCheckedModeBanner: false,
+      translations: Messages(),
+      locale: Get.deviceLocale,
+      fallbackLocale: const Locale('zh','TW'),
       routerDelegate: _delegate,
       routeInformationParser: _parser,
       theme: ThemeData(

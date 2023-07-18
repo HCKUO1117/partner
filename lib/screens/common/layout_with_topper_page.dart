@@ -4,6 +4,8 @@ import 'package:partner/constants.dart';
 import 'package:partner/controllers/size_controller.dart';
 import 'package:partner/controllers/user_controller.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
+import 'package:partner/utils/translation.dart';
+import 'package:partner/widgets/menu_list_button.dart';
 import 'package:partner/widgets/search_bar.dart';
 
 class LayoutWithTopperPage extends StatelessWidget {
@@ -35,6 +37,32 @@ class LayoutWithTopperPage extends StatelessWidget {
                     color: Colors.white,
                     height: sizeController.width > 600 ? 90 : 150,
                     width: double.maxFinite,
+                  ),
+                  Container(
+                    height: 60,
+                    width: double.maxFinite,
+                    color: Constants.primaryOrange,
+                    child: Row(
+                      children: [
+                        MenuListButton(
+                          onTap: () {},
+                          text: Messages.home.tr,
+                          highlight: true,
+                        ),
+                        MenuListButton(
+                          onTap: () {},
+                          text: Messages.recruit.tr,
+                        ),
+                        MenuListButton(
+                          onTap: () {},
+                          text: Messages.talents.tr,
+                        ),
+                        MenuListButton(
+                          onTap: () {},
+                          text: Messages.articles.tr,
+                        ),
+                      ],
+                    ),
                   ),
                   bottom
                 ],
@@ -141,7 +169,7 @@ class LayoutWithTopperPage extends StatelessWidget {
                             AppRouterDelegate.of(context).pushNamed('/account');
                           },
                           child: Text(
-                            '登入',
+                            Messages.login.tr,
                             style: TextStyle(
                               color: Constants.primaryOrange,
                               fontSize: 20,
@@ -154,7 +182,7 @@ class LayoutWithTopperPage extends StatelessWidget {
                             AppRouterDelegate.of(context).pushNamed('/account');
                           },
                           child: Text(
-                            '註冊',
+                            Messages.register.tr,
                             style: TextStyle(
                               color: Constants.primaryOrange,
                               fontSize: 20,

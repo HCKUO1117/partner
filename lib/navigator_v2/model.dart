@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:partner/constants.dart';
 import 'package:partner/screens/account/account_page.dart';
 import 'package:partner/screens/home_screen.dart';
 import 'package:partner/screens/unknown.dart';
@@ -22,21 +23,24 @@ class RoutePage extends RouteSettings {
 
 RoutePage getRoutePage({required String name}) {
   switch (name) {
-    case '/':
+    case Constants.homeRoute:
       return RoutePage(
         name: "首頁",
         path: name,
         builder: () => HomeScreen(),
       );
-    case '/account':
+    case Constants.accountRoute:
+    case Constants.accountInfoRoute:
       return RoutePage(
         name: "帳戶",
         path: name,
-        builder: () => const AccountPage(),
+        builder: () => AccountPage(
+          path: name,
+        ),
       );
     default:
       return RoutePage(
-        name: 'Unknwon',
+        name: 'Unknown',
         path: '/404',
         builder: () => const UnknownScreen(),
       );
