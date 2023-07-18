@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:partner/constants.dart';
 import 'package:partner/screens/account/account_page.dart';
-import 'package:partner/screens/home_screen.dart';
+import 'package:partner/screens/home/home_screen.dart';
 import 'package:partner/screens/unknown.dart';
 
 class RoutePage extends RouteSettings {
@@ -31,6 +31,13 @@ RoutePage getRoutePage({required String name}) {
       );
     case Constants.accountRoute:
     case Constants.accountInfoRoute:
+    case Constants.accountResumeRoute:
+    case Constants.accountArticleRoute:
+    case Constants.accountMyRecruitRoute:
+    case Constants.accountInviteRoute:
+      if(name == Constants.accountRoute){
+        name = Constants.accountInfoRoute;
+      }
       return RoutePage(
         name: "帳戶",
         path: name,
@@ -41,7 +48,7 @@ RoutePage getRoutePage({required String name}) {
     default:
       return RoutePage(
         name: 'Unknown',
-        path: '/404',
+        path: name,
         builder: () => const UnknownScreen(),
       );
   }

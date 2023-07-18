@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:partner/constants.dart';
+import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/screens/common/layout_with_topper_page.dart';
+import 'package:partner/utils/translation.dart';
+import 'package:partner/widgets/list_button.dart';
 
 enum AccountPagePath {
-  account,
   info,
   resume,
   article,
-  myCase,
+  myRecruit,
   invite,
 }
 
 extension AccountPagePathEx on AccountPagePath {
   String get path {
     switch (this) {
-      case AccountPagePath.account:
-        return Constants.accountRoute;
       case AccountPagePath.info:
         return Constants.accountInfoRoute;
       case AccountPagePath.resume:
         return Constants.accountResumeRoute;
       case AccountPagePath.article:
         return Constants.accountArticleRoute;
-      case AccountPagePath.myCase:
-        return Constants.accountMyCasesRoute;
+      case AccountPagePath.myRecruit:
+        return Constants.accountMyRecruitRoute;
       case AccountPagePath.invite:
         return Constants.accountInviteRoute;
     }
@@ -31,23 +32,21 @@ extension AccountPagePathEx on AccountPagePath {
 
   String get name {
     switch (this) {
-      case AccountPagePath.account:
-        return Constants.accountRoute;
       case AccountPagePath.info:
-        return Constants.accountInfoRoute;
+        return Messages.memberInfo.tr;
       case AccountPagePath.resume:
-        return Constants.accountResumeRoute;
+        return Messages.myResume.tr;
       case AccountPagePath.article:
-        return Constants.accountArticleRoute;
-      case AccountPagePath.myCase:
-        return Constants.accountMyCasesRoute;
+        return Messages.myArticles.tr;
+      case AccountPagePath.myRecruit:
+        return Messages.myRecruits.tr;
       case AccountPagePath.invite:
-        return Constants.accountInviteRoute;
+        return Messages.invites.tr;
     }
   }
 }
 
-class AccountPage extends StatefulWidget {
+class AccountPage extends StatelessWidget {
   final String path;
 
   const AccountPage({
@@ -56,20 +55,33 @@ class AccountPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AccountPage> createState() => _AccountPageState();
-}
-
-class _AccountPageState extends State<AccountPage> {
-  @override
   Widget build(BuildContext context) {
-    return LayoutWithTopperPage(bottom: _content());
+    return LayoutWithTopperPage(bottom: _content(context));
   }
 
-  Widget _content() {
+  Widget _content(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: Constants.maxWidth),
       child: Row(
-        children: const [Card(), Expanded(child: Card())],
+        children: [
+          Card(
+            child: IntrinsicWidth(
+              child: Column(
+                children: [
+                  for (var element in AccountPagePath.values)
+                    ListButton(
+                      title: element.name,
+                      selected: path == element.path,
+                      onTap: () {
+                        AppRouterDelegate.of(context).pushNamed(element.path);
+                      },
+                    )
+                ],
+              ),
+            ),
+          ),
+          Expanded(child: Card()),
+        ],
       ),
     );
   }

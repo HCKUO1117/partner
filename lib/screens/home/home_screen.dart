@@ -5,8 +5,8 @@ import 'package:partner/constants.dart';
 import 'package:partner/controllers/home_controller.dart';
 import 'package:partner/controllers/size_controller.dart';
 import 'package:partner/controllers/user_controller.dart';
-import 'package:partner/models/loading_status.dart';
 import 'package:partner/screens/common/layout_with_topper_page.dart';
+import 'package:partner/screens/common/loading_layout.dart';
 import 'package:partner/utils/translation.dart';
 import 'package:partner/utils/utils.dart';
 import 'package:partner/widgets/article_card.dart';
@@ -34,12 +34,12 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           BannerWidget(
-            status: homeController.loadingStatusBanner.value,
+            state: homeController.loadingStateBanner.value,
             banners: homeController.banners,
           ),
           homePageBlock(
             title: Messages.recruit.tr.toUpperCase(),
-            status: homeController.loadingStatusCase.value,
+            state: homeController.loadingStateCase.value,
             child: DefaultTabController(
               length: homeController.caseCategoryList.length,
               child: Column(
@@ -111,7 +111,7 @@ class HomeScreen extends StatelessWidget {
           ),
           homePageBlock(
             title: Messages.talents.tr.toUpperCase(),
-            status: homeController.loadingStatusPerson.value,
+            state: homeController.loadingStatePerson.value,
             child: GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -141,7 +141,7 @@ class HomeScreen extends StatelessWidget {
           ),
           homePageBlock(
             title: Messages.articles.tr.toUpperCase(),
-            status: homeController.loadingStatusArticle.value,
+            state: homeController.loadingStateArticle.value,
             child: DefaultTabController(
               length: homeController.articleCategoryList.length,
               child: Column(
@@ -219,26 +219,8 @@ class HomeScreen extends StatelessWidget {
   Widget homePageBlock({
     required String title,
     required Widget child,
-    required LoadingStatus status,
+    required LoadingState state,
   }) {
-    Widget body = const SizedBox();
-
-    switch (status) {
-      case LoadingStatus.finish:
-        body = child;
-        break;
-      case LoadingStatus.loading:
-        body = const Center(
-          child: CircularProgressIndicator(),
-        );
-        break;
-      case LoadingStatus.error:
-        body = Center(
-          child: Text(Messages.error.tr),
-        );
-        break;
-    }
-
     return Container(
       padding: const EdgeInsets.all(16),
       constraints: const BoxConstraints(maxWidth: Constants.maxWidth),
@@ -268,7 +250,10 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          body,
+          LoadingLayout(
+            state: state,
+            child: child,
+          ),
         ],
       ),
     );

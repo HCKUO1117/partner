@@ -132,7 +132,7 @@ class LayoutWithTopperPage extends StatelessWidget {
                         color: Colors.transparent,
                         child: PopupMenuButton(
                           onSelected: (v) {
-                            AppRouterDelegate.of(context).pushNamed('/account');
+                            AppRouterDelegate.of(context).pushNamed(Constants.accountInfoRoute);
                             // HtmlUtils.push(Constants.accountRoute);
                             // Navigator.pushNamed(context, Constants.accountRoute);
                           },
@@ -166,7 +166,7 @@ class LayoutWithTopperPage extends StatelessWidget {
                       children: [
                         TextButton(
                           onPressed: () {
-                            AppRouterDelegate.of(context).pushNamed('/account');
+                            AppRouterDelegate.of(context).pushNamed(Constants.accountInfoRoute);
                           },
                           child: Text(
                             Messages.login.tr,
@@ -179,7 +179,7 @@ class LayoutWithTopperPage extends StatelessWidget {
                         const SizedBox(width: 8),
                         TextButton(
                           onPressed: () {
-                            AppRouterDelegate.of(context).pushNamed('/account');
+                            AppRouterDelegate.of(context).pushNamed(Constants.accountInfoRoute);
                           },
                           child: Text(
                             Messages.register.tr,

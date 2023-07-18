@@ -3,31 +3,31 @@ import 'package:get/get.dart';
 import 'package:partner/models/article_model.dart';
 import 'package:partner/models/banner_model.dart';
 import 'package:partner/models/case_model.dart';
-import 'package:partner/models/loading_status.dart';
 import 'package:partner/models/person_model.dart';
 import 'package:partner/models/category_model.dart';
 import 'package:partner/models/tag_model.dart';
+import 'package:partner/screens/common/loading_layout.dart';
 
 class HomeController extends GetxController with GetTickerProviderStateMixin {
   TextEditingController search = TextEditingController();
 
   ///banner
-  var loadingStatusBanner = LoadingStatus.finish.obs;
+  var loadingStateBanner = LoadingState.finished.obs;
   var banners = <BannerModel>[].obs;
 
   ///需求
-  var loadingStatusCase = LoadingStatus.finish.obs;
+  var loadingStateCase = LoadingState.finished.obs;
   var caseCategoryList = <CategoryModel>[].obs;
   Rx<int?> caseCurrentTag = Rx(null);
   TabController? caseTabController;
 
   ///人才
-  var loadingStatusPerson = LoadingStatus.finish.obs;
+  var loadingStatePerson = LoadingState.finished.obs;
   var personList = <PersonModel>[].obs;
   Rx<int?> personCurrentTag = Rx(null);
 
   ///文章
-  var loadingStatusArticle = LoadingStatus.finish.obs;
+  var loadingStateArticle = LoadingState.finished.obs;
   var articleCategoryList = <CategoryModel>[].obs;
   Rx<int?> articleCurrentTag = Rx(null);
   TabController? articleTabController;
@@ -45,7 +45,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   }
 
   Future<void> fetchCase() async {
-    loadingStatusCase(LoadingStatus.loading);
+    loadingStateCase(LoadingState.loading);
     update();
     await Future.delayed(Duration(seconds: 1), () {
       //TODO 假資料
@@ -552,12 +552,12 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       length: caseCategoryList.length,
       vsync: this,
     );
-    loadingStatusCase(LoadingStatus.finish);
+    loadingStateCase(LoadingState.finished);
     update();
   }
 
   Future<void> fetchBanner() async {
-    loadingStatusBanner(LoadingStatus.loading);
+    loadingStateBanner(LoadingState.loading);
     update();
     await Future.delayed(Duration(seconds: 1), () {
       //TODO 假資料
@@ -577,12 +577,12 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       ]);
     });
 
-    loadingStatusBanner(LoadingStatus.finish);
+    loadingStateBanner(LoadingState.finished);
     update();
   }
 
   Future<void> fetchPerson() async {
-    loadingStatusPerson(LoadingStatus.loading);
+    loadingStatePerson(LoadingState.loading);
     update();
     await Future.delayed(Duration(seconds: 2), () {
       //TODO 假資料
@@ -721,12 +721,12 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       ]);
     });
 
-    loadingStatusPerson(LoadingStatus.finish);
+    loadingStatePerson(LoadingState.finished);
     update();
   }
 
   Future<void> fetchArticle() async {
-    loadingStatusArticle(LoadingStatus.loading);
+    loadingStateArticle(LoadingState.loading);
     update();
     await Future.delayed(
       Duration(seconds: 1),
@@ -1337,7 +1337,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
       length: articleCategoryList.length,
       vsync: this,
     );
-    loadingStatusArticle(LoadingStatus.finish);
+    loadingStateArticle(LoadingState.finished);
     update();
   }
 }

@@ -14,7 +14,7 @@ class Constants {
   static const String accountInfoRoute = '/account/info';
   static const String accountResumeRoute = '/account/resume';
   static const String accountArticleRoute = '/account/article';
-  static const String accountMyCasesRoute = '/account/my_cases';
+  static const String accountMyRecruitRoute = '/account/my_recruit';
   static const String accountInviteRoute = '/account/invite';
 
   ///params
