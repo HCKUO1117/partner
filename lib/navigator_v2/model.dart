@@ -5,6 +5,7 @@ import 'package:partner/controllers/user_controller.dart';
 import 'package:partner/screens/account/account_page.dart';
 import 'package:partner/screens/home/home_screen.dart';
 import 'package:partner/screens/unknown.dart';
+import 'package:partner/utils/translation.dart';
 
 class RoutePage extends RouteSettings {
   final Function? builder;
@@ -24,12 +25,18 @@ class RoutePage extends RouteSettings {
 }
 
 RoutePage getRoutePage({required String name}) {
+  if (name.endsWith('/') && name.length > 1) {
+    name = name.substring(0, name.length - 1);
+  }
   switch (name) {
     case Constants.homeRoute:
       return RoutePage(
-        name: "首頁",
+        name: name,
         path: name,
-        builder: () => HomeScreen(),
+        builder: () => Title(
+          title: Messages.defaultTitle.tr,
+          color: Colors.black,
+          child: HomeScreen(),)
       );
     case Constants.accountRoute:
     case Constants.accountInfoRoute:
@@ -47,17 +54,25 @@ RoutePage getRoutePage({required String name}) {
       }
       userController.fetch(path);
       return RoutePage(
-        name: "帳戶",
+        name: name,
         path: name,
-        builder: () => AccountPage(
-          path: name,
+        builder: () => Title(
+          title: path.name,
+          color: Colors.black,
+          child: AccountPage(
+            path: name,
+          ),
         ),
       );
     default:
       return RoutePage(
-        name: 'Unknown',
+        name: name,
         path: name,
-        builder: () => const UnknownScreen(),
+        builder: () => Title(
+          title: Messages.error.tr,
+          color: Colors.black,
+          child: const UnknownScreen(),
+        ),
       );
   }
 }

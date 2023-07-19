@@ -11,6 +11,7 @@ class Messages extends Translations {
   static const String error = 'error';
   static const String more = 'more';
   static const String loading = 'loading';
+  static const String defaultTitle = 'defaultTitle';
 
   ///會員中心
   static const String memberInfo = 'memberInfo';
@@ -37,6 +38,7 @@ class Messages extends Translations {
           myRecruits: '我的招募',
           invites: '邀請',
           loading: '加載中...',
+          defaultTitle:'Partmingle 找夥伴、找活動、學技能',
         },
         'en_US': {
           home: 'home',
@@ -53,6 +55,7 @@ class Messages extends Translations {
           myRecruits: 'My Recruitments',
           invites: 'Invites',
           loading: 'loading...',
+          defaultTitle:'Partmingle 找夥伴、找活動、學技能',
         }
       };
 }

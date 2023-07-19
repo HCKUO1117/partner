@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:partner/constants.dart';
 import 'package:partner/screens/account/account_page.dart';
