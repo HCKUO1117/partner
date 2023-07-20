@@ -18,11 +18,17 @@ class ListButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      customBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
       child: Container(
-        color: selected ?? false ? Colors.black12 : null,
         padding: const EdgeInsets.symmetric(
           vertical: 16,
           horizontal: 32,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: selected ?? false ? Colors.black12 : null,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,6 +39,7 @@ class ListButton extends StatelessWidget {
               title,
               style: const TextStyle(
                 color: Colors.black54,
+                fontSize: 18
               ),
             )
           ],

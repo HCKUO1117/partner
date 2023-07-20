@@ -124,73 +124,32 @@ class LayoutWithTopperPage extends StatelessWidget {
               const SizedBox(width: 16),
               Column(
                 children: [
-                  const SizedBox(height: 22),
-                  if (userController.isLogin)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: PopupMenuButton(
-                          onSelected: (v) {
-                            AppRouterDelegate.of(context).pushNamed(Constants.accountInfoRoute);
-                            // HtmlUtils.push(Constants.accountRoute);
-                            // Navigator.pushNamed(context, Constants.accountRoute);
-                          },
-                          itemBuilder: (context) => [
-                            const PopupMenuItem(
-                              value: 1,
-                              child: Text('123'),
-                            )
-                          ],
-                          tooltip: '',
-                          position: PopupMenuPosition.under,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 2,
-                                  color: Constants.primaryOrange,
-                                ),
-                                borderRadius: BorderRadius.circular(50)),
-                            padding: const EdgeInsets.all(8),
-                            child: Icon(
-                              Icons.person_outline,
-                              size: 30,
-                              color: Constants.primaryOrange,
-                            ),
+                  const SizedBox(height: 13),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          AppRouterDelegate.of(context).pushNamed(Constants.accountInfoRoute);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 2,
+                                color: Constants.primaryOrange,
+                              ),
+                              borderRadius: BorderRadius.circular(50)),
+                          padding: const EdgeInsets.all(8),
+                          child: Icon(
+                            Icons.person_outline,
+                            size: 30,
+                            color: Constants.primaryOrange,
                           ),
                         ),
                       ),
-                    )
-                  else
-                    Row(
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            AppRouterDelegate.of(context).pushNamed(Constants.accountInfoRoute);
-                          },
-                          child: Text(
-                            Messages.login.tr,
-                            style: TextStyle(
-                              color: Constants.primaryOrange,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        TextButton(
-                          onPressed: () {
-                            AppRouterDelegate.of(context).pushNamed(Constants.accountInfoRoute);
-                          },
-                          child: Text(
-                            Messages.register.tr,
-                            style: TextStyle(
-                              color: Constants.primaryOrange,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
+                  )
                 ],
               ),
             ],

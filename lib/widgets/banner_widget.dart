@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,15 +49,17 @@ class _BannerWidgetState extends State<BannerWidget> {
                 children: [
                   CarouselSlider(
                     items: widget.banners
-                        .map((e) => InkWell(
-                              onTap: () {
-                                launchUrlString(e.url);
-                              },
-                              child: Image.network(
-                                e.image,
-                                fit: BoxFit.contain,
-                              ),
-                            ))
+                        .map(
+                          (e) => InkWell(
+                            onTap: () {
+                              launchUrlString(e.url);
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl: e.image,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        )
                         .toList(),
                     carouselController: carouselController,
                     options: CarouselOptions(

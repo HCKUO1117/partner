@@ -60,7 +60,7 @@ RoutePage getRoutePage({required String name}) {
           title: path.name,
           color: Colors.black,
           child: AccountPage(
-            path: name,
+            path: path,
           ),
         ),
       );
