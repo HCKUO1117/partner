@@ -16,6 +16,7 @@ class EditableTextTitle extends StatelessWidget {
   final TextInputType? textInputType;
   final String? hint;
   final Function()? action;
+  final Function(String)? onChange;
 
   const EditableTextTitle({
     Key? key,
@@ -24,7 +25,7 @@ class EditableTextTitle extends StatelessWidget {
     required this.editTextType,
     this.textInputType,
     this.action,
-    this.hint,
+    this.hint, this.onChange,
   }) : super(key: key);
 
   @override
@@ -63,6 +64,7 @@ class EditableTextTitle extends StatelessWidget {
       case EditTextType.editable:
         return TextField(
           controller: controller,
+          onChanged: onChange,
           decoration: const InputDecoration(
             border: InputBorder.none,
             focusedBorder: OutlineInputBorder(

@@ -24,6 +24,7 @@ class Messages extends Translations {
   static const String unset = 'unset';
   static const String secret = 'secret';
   static const String gender = 'gender';
+  static const String others = 'others';
 
   ///會員中心
   static const String memberInfo = 'memberInfo';
@@ -33,6 +34,7 @@ class Messages extends Translations {
   static const String invites = 'invites';
   static const String phoneHint = 'phoneHint';
   static const String contactEmailHint = 'contactEmailHint';
+  static const String selectYourGender = 'selectYourGender';
 
   @override
   // TODO: implement keys
@@ -67,6 +69,8 @@ class Messages extends Translations {
           unset:'未設定',
           secret:'保密',
           gender:'性別',
+          others:'其他',
+          selectYourGender:'選擇性別'
         },
         'en_US': {
           home: 'home',
@@ -98,6 +102,8 @@ class Messages extends Translations {
           unset:'unset',
           secret:'secret',
           gender:'gender',
+          others:'others',
+          selectYourGender:'Select Your Gender'
         }
       };
 }

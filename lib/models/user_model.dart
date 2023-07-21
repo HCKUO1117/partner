@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 import 'package:partner/utils/translation.dart';
 
 enum GenderType {
-  unset,
   male,
   female,
+  other,
 }
 
 extension GenderTypeEx on GenderType {
@@ -14,8 +14,8 @@ extension GenderTypeEx on GenderType {
         return Messages.male.tr;
       case GenderType.female:
         return Messages.female.tr;
-      case GenderType.unset:
-        return Messages.secret.tr;
+      case GenderType.other:
+        return Messages.others.tr;
     }
   }
 }

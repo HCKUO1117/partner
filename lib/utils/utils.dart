@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Utils {
   static MaterialColor createMaterialColor(Color color) {
@@ -33,5 +34,19 @@ class Utils {
 
   static Future<void> delay({int? second}) async {
     await Future.delayed(Duration(seconds: second ?? 1));
+  }
+
+  static Future<XFile?> pickSingleImage() async {
+    final ImagePicker picker = ImagePicker();
+
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
+
+  static Future<List<XFile>> pickMultiImage() async {
+    final ImagePicker picker = ImagePicker();
+
+    final List<XFile> images = await picker.pickMultiImage();
+    return images;
   }
 }

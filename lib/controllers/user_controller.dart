@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:partner/constants.dart';
+import 'package:partner/models/resume_model.dart';
 import 'package:partner/models/user_model.dart';
 import 'package:partner/screens/account/account_page.dart';
 import 'package:partner/screens/common/loading_layout.dart';
@@ -27,7 +29,24 @@ class UserController extends GetxController {
   // List<String> schedule = [];
 
   ///userModel
-  var userModel = UserModel(id: 0, nickName: '', profile: '', email: '').obs;
+  Rx<UserModel?> userModel = Rx(null);
+
+  TextEditingController userEmail = TextEditingController();
+  TextEditingController nickname = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController contactEmail = TextEditingController();
+  Rx<GenderType?> selectedGenderType = Rx(null);
+  Rx<XFile?> changedProfile = Rx(null);
+
+  bool get canSave =>
+      userModel.value != null &&
+      (nickname.text != userModel.value?.nickName ||
+          selectedGenderType.value != userModel.value?.genderType ||
+          changedProfile.value != null) &&
+      nickname.text.isNotEmpty;
+
+  ///
+  Rx<ResumeModel?> userResume = Rx(null);
 
   Future<void> fetch(AccountPagePath path) async {
     // schedule.add(path.path);
@@ -39,6 +58,11 @@ class UserController extends GetxController {
         await Utils.delay();
         //TODO user資料
         userModel(UserModel.sample());
+        userEmail.text = userModel.value?.email ?? '';
+        nickname.text = userModel.value?.nickName ?? '';
+        phone.text = userModel.value?.phone ?? '';
+        contactEmail.text = userModel.value?.contactEmail ?? '';
+        selectedGenderType(userModel.value?.genderType);
 
         infoState(LoadingState.finished);
         infoDone = true;
@@ -53,6 +77,8 @@ class UserController extends GetxController {
         if (resumeDone || resumeState.value == LoadingState.loading) return;
         resumeState(LoadingState.loading);
         await Utils.delay();
+        //TODO 履歷資料
+        userResume(ResumeModel.sample());
 
         resumeState(LoadingState.finished);
         resumeDone = true;

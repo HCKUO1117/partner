@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:partner/constants.dart';
 import 'package:partner/controllers/user_controller.dart';
 import 'package:partner/models/user_model.dart';
@@ -9,6 +10,7 @@ import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/screens/common/layout_with_topper_page.dart';
 import 'package:partner/screens/common/loading_layout.dart';
 import 'package:partner/utils/translation.dart';
+import 'package:partner/utils/utils.dart';
 import 'package:partner/widgets/editable_text_title.dart';
 import 'package:partner/widgets/list_button.dart';
 
@@ -67,18 +69,7 @@ class AccountPage extends StatelessWidget {
     return LayoutWithTopperPage(bottom: _content(context));
   }
 
-  final TextEditingController userEmail = TextEditingController();
-  final TextEditingController name = TextEditingController();
-  final TextEditingController phone = TextEditingController();
-  final TextEditingController contactEmail = TextEditingController();
-
   Widget _content(BuildContext context) {
-    UserModel userModel = userController.userModel.value;
-    userEmail.text = userModel.email;
-    name.text = userModel.nickName;
-    phone.text = userModel.phone ?? '';
-    contactEmail.text = userModel.contactEmail ?? '';
-
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: Constants.maxWidth),
       child: Padding(
@@ -143,7 +134,7 @@ class AccountPage extends StatelessWidget {
   }
 
   Widget _info() {
-    UserModel userModel = userController.userModel.value;
+    UserModel? userModel = userController.userModel.value;
     return Column(
       children: [
         const SizedBox(height: 16),
@@ -152,7 +143,9 @@ class AccountPage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(200),
               child: CachedNetworkImage(
-                imageUrl: userModel.profile,
+                imageUrl: userController.changedProfile.value == null
+                    ? userModel?.profile ?? ''
+                    : userController.changedProfile.value?.path ?? '',
                 fit: BoxFit.cover,
                 width: 200,
                 height: 200,
@@ -164,7 +157,12 @@ class AccountPage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    XFile? file = await Utils.pickSingleImage();
+                    if (file != null) {
+                      userController.changedProfile(file);
+                    }
+                  },
                   customBorder: const CircleBorder(),
                   child: Container(
                     color: Constants.primaryOrange,
@@ -188,19 +186,22 @@ class AccountPage extends StatelessWidget {
               const SizedBox(height: 32),
               EditableTextTitle(
                 title: 'E-mail/${Messages.account.tr}',
-                controller: userEmail,
+                controller: userController.userEmail,
                 editTextType: EditTextType.none,
               ),
               const SizedBox(height: 32),
               EditableTextTitle(
                 title: Messages.nickName.tr,
-                controller: name,
+                controller: userController.nickname,
                 editTextType: EditTextType.editable,
+                onChange: (v){
+                  userController.update();
+                },
               ),
               const SizedBox(height: 32),
               EditableTextTitle(
                 title: Messages.phone.tr,
-                controller: phone,
+                controller: userController.phone,
                 hint: Messages.phoneHint.tr,
                 editTextType: EditTextType.action,
                 action: () {},
@@ -208,7 +209,7 @@ class AccountPage extends StatelessWidget {
               const SizedBox(height: 32),
               EditableTextTitle(
                 title: Messages.contactEmail.tr,
-                controller: contactEmail,
+                controller: userController.contactEmail,
                 hint: Messages.contactEmailHint.tr,
                 editTextType: EditTextType.action,
                 action: () {},
@@ -223,67 +224,85 @@ class AccountPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              SizedBox(
-                child: DropdownButtonFormField2<GenderType>(
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+              Row(
+                children: [
+                  DropdownButton2<GenderType?>(
+                    value: userController.selectedGenderType.value,
+                    hint: Text(
+                      Messages.selectYourGender.tr,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black38,
+                      ),
                     ),
-                  ),
-                  hint: const Text(
-                    'Select Your Gender',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  items: GenderType.values
-                      .map(
-                        (item) => DropdownMenuItem<GenderType>(
-                          value: item,
-                          child: Text(
-                            item.text,
-                            style: const TextStyle(
-                              fontSize: 14,
+                    buttonStyleData: ButtonStyleData(
+                      padding: const EdgeInsets.only(left: 14, right: 14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: Colors.black26,
+                        ),
+                      ),
+                    ),
+                    dropdownStyleData: DropdownStyleData(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    underline: const SizedBox(),
+                    items: GenderType.values
+                        .map(
+                          (item) => DropdownMenuItem<GenderType>(
+                            value: item,
+                            child: Text(
+                              item.text,
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                      .toList(),
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please select gender.';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    //Do something when selected item is changed.
-                  },
-                  onSaved: (value) {
-                    // selectedValue = value.toString();
-                  },
-                  buttonStyleData: const ButtonStyleData(
-                    padding: EdgeInsets.only(right: 8),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      userController.selectedGenderType(value);
+                    },
                   ),
-                  iconStyleData: const IconStyleData(
-                    icon: Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.black45,
+                ],
+              ),
+              const SizedBox(height: 32),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: userController.canSave ? () {} : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Constants.primaryOrange,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      padding: const EdgeInsets.all(14),
                     ),
-                    iconSize: 24,
-                  ),
-                  dropdownStyleData: DropdownStyleData(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
+                    child: Text(
+                      Messages.save.tr,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  menuItemStyleData: const MenuItemStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                  ),
-                ),
+                ],
               ),
               const SizedBox(height: 32),
             ],
           ),
         ),
+      ],
+    );
+  }
+
+  Widget _resume() {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
       ],
     );
   }

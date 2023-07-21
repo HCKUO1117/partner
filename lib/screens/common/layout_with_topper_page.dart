@@ -27,6 +27,7 @@ class LayoutWithTopperPage extends StatelessWidget {
       return Scaffold(
         body: SingleChildScrollView(
           child: Stack(
+            alignment: Alignment.topCenter,
             children: [
               ///下方頁面
               Column(
@@ -38,31 +39,40 @@ class LayoutWithTopperPage extends StatelessWidget {
                     height: sizeController.width > 600 ? 90 : 150,
                     width: double.maxFinite,
                   ),
-                  Container(
-                    height: 60,
-                    width: double.maxFinite,
-                    color: Constants.primaryOrange,
-                    child: Row(
-                      children: [
-                        MenuListButton(
-                          onTap: () {},
-                          text: Messages.home.tr,
-                          highlight: true,
+                  Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Container(
+                        height: 60,
+                        width: double.maxFinite,
+                        color: Constants.primaryOrange,
+                      ),
+                      Container(
+                        height: 60,
+                        constraints: const BoxConstraints(maxWidth: Constants.maxWidth),
+                        child: Row(
+                          children: [
+                            MenuListButton(
+                              onTap: () {},
+                              text: Messages.home.tr,
+                              highlight: true,
+                            ),
+                            MenuListButton(
+                              onTap: () {},
+                              text: Messages.recruit.tr,
+                            ),
+                            MenuListButton(
+                              onTap: () {},
+                              text: Messages.talents.tr,
+                            ),
+                            MenuListButton(
+                              onTap: () {},
+                              text: Messages.articles.tr,
+                            ),
+                          ],
                         ),
-                        MenuListButton(
-                          onTap: () {},
-                          text: Messages.recruit.tr,
-                        ),
-                        MenuListButton(
-                          onTap: () {},
-                          text: Messages.talents.tr,
-                        ),
-                        MenuListButton(
-                          onTap: () {},
-                          text: Messages.articles.tr,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   bottom
                 ],
@@ -80,8 +90,10 @@ class LayoutWithTopperPage extends StatelessWidget {
   Widget top(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
+      constraints: const BoxConstraints(maxWidth: Constants.maxWidth),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
