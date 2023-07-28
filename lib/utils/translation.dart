@@ -35,6 +35,10 @@ class Messages extends Translations {
   static const String phoneHint = 'phoneHint';
   static const String contactEmailHint = 'contactEmailHint';
   static const String selectYourGender = 'selectYourGender';
+  static const String shortIntro = 'shortIntro';
+  static const String completeIntro = 'completeIntro';
+  static const String expertises = 'expertises';
+  static const String experiences = 'experiences';
 
   @override
   // TODO: implement keys
@@ -70,7 +74,11 @@ class Messages extends Translations {
           secret:'保密',
           gender:'性別',
           others:'其他',
-          selectYourGender:'選擇性別'
+          selectYourGender:'選擇性別',
+          shortIntro:'簡短介紹',
+          completeIntro:'完整介紹',
+          expertises:'專長',
+          experiences:'經歷',
         },
         'en_US': {
           home: 'home',
@@ -103,7 +111,11 @@ class Messages extends Translations {
           secret:'secret',
           gender:'gender',
           others:'others',
-          selectYourGender:'Select Your Gender'
+          selectYourGender:'Select Your Gender',
+          shortIntro:'short introduction',
+          completeIntro: 'Complete introduction',
+          expertises: 'Expertises',
+          experiences:'Experiences',
         }
       };
 }

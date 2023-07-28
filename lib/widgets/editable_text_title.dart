@@ -17,6 +17,8 @@ class EditableTextTitle extends StatelessWidget {
   final String? hint;
   final Function()? action;
   final Function(String)? onChange;
+  final int? maxLength;
+  final int? minLine;
 
   const EditableTextTitle({
     Key? key,
@@ -25,7 +27,9 @@ class EditableTextTitle extends StatelessWidget {
     required this.editTextType,
     this.textInputType,
     this.action,
-    this.hint, this.onChange,
+    this.hint,
+    this.onChange,
+    this.maxLength, this.minLine,
   }) : super(key: key);
 
   @override
@@ -65,6 +69,9 @@ class EditableTextTitle extends StatelessWidget {
         return TextField(
           controller: controller,
           onChanged: onChange,
+          maxLength: maxLength,
+          maxLines: null,
+          minLines: minLine,
           decoration: const InputDecoration(
             border: InputBorder.none,
             focusedBorder: OutlineInputBorder(

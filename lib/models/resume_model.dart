@@ -1,11 +1,14 @@
+import 'package:partner/models/tag_model.dart';
+
 class ResumeModel {
   int userId;
   String nickname;
   String profile;
-  String? shortIntro;
-  String? completeIntro;
+  String shortIntro;
+  String completeIntro;
   List<SkillModel> skillList;
   List<String> experiences;
+  List<TagModel> tags;
 
   factory ResumeModel.sample() {
     return ResumeModel(
@@ -13,8 +16,11 @@ class ResumeModel {
       nickname: 'nickname',
       profile:
           'https://janstockcoin.com/wp-content/uploads/2021/06/pexels-photo-747964-2048x1293.jpeg',
+      shortIntro: '',
+      completeIntro: '',
       skillList: [],
       experiences: [],
+      tags: [],
     );
   }
 
@@ -22,10 +28,11 @@ class ResumeModel {
     required this.userId,
     required this.nickname,
     required this.profile,
-    this.shortIntro,
-    this.completeIntro,
+    required this.shortIntro,
+    required this.completeIntro,
     required this.skillList,
     required this.experiences,
+    required this.tags,
   });
 }
 

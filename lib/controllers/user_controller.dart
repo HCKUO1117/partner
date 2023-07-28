@@ -26,8 +26,6 @@ class UserController extends GetxController {
   var recruitDone = false;
   var inviteDone = false;
 
-  // List<String> schedule = [];
-
   ///userModel
   Rx<UserModel?> userModel = Rx(null);
 
@@ -38,19 +36,32 @@ class UserController extends GetxController {
   Rx<GenderType?> selectedGenderType = Rx(null);
   Rx<XFile?> changedProfile = Rx(null);
 
-  bool get canSave =>
-      userModel.value != null &&
-      (nickname.text != userModel.value?.nickName ||
-          selectedGenderType.value != userModel.value?.genderType ||
-          changedProfile.value != null) &&
-      nickname.text.isNotEmpty;
+  var canUserSave = false.obs;
 
-  ///
+  void onCanUserSaveListen() {
+    canUserSave(userModel.value != null &&
+        (nickname.value.text != userModel.value?.nickName ||
+            selectedGenderType.value != userModel.value?.genderType ||
+            changedProfile.value != null) &&
+        nickname.value.text.isNotEmpty);
+  }
+
+  ///userResume
   Rx<ResumeModel?> userResume = Rx(null);
+  TextEditingController shortIntro = TextEditingController();
+  TextEditingController completeIntro = TextEditingController();
+
+  var canResumeSave = false.obs;
+
+  void onCanResumeSaveListen() {
+    canResumeSave(
+      userResume.value != null &&
+          (shortIntro.text != userResume.value?.shortIntro ||
+              completeIntro.text != userResume.value?.completeIntro),
+    );
+  }
 
   Future<void> fetch(AccountPagePath path) async {
-    // schedule.add(path.path);
-
     switch (path) {
       case AccountPagePath.info:
         if (infoDone || infoState.value == LoadingState.loading) return;
@@ -66,11 +77,6 @@ class UserController extends GetxController {
 
         infoState(LoadingState.finished);
         infoDone = true;
-        // schedule.removeAt(schedule.indexWhere((element) => element == path.path));
-        // if (!schedule.contains(path.path)) {
-        //   infoState(LoadingState.finished);
-        //   infoDone = true;
-        // }
 
         break;
       case AccountPagePath.resume:
@@ -79,14 +85,12 @@ class UserController extends GetxController {
         await Utils.delay();
         //TODO 履歷資料
         userResume(ResumeModel.sample());
+        shortIntro.text = userResume.value?.shortIntro ?? '';
+        completeIntro.text = userResume.value?.completeIntro ?? '';
 
         resumeState(LoadingState.finished);
         resumeDone = true;
-        // schedule.removeAt(schedule.indexWhere((element) => element == path.path));
-        // if (!schedule.contains(path.path)) {
-        //   resumeState(LoadingState.finished);
-        //   resumeDone = true;
-        // }
+
         break;
       case AccountPagePath.article:
         if (articleDone || articleState.value == LoadingState.loading) return;
@@ -95,11 +99,7 @@ class UserController extends GetxController {
 
         articleState(LoadingState.finished);
         articleDone = true;
-        // schedule.removeAt(schedule.indexWhere((element) => element == path.path));
-        // if (!schedule.contains(path.path)) {
-        //   articleState(LoadingState.finished);
-        //   articleDone = true;
-        // }
+
         break;
       case AccountPagePath.myRecruit:
         if (recruitDone || recruitState.value == LoadingState.loading) return;
@@ -108,11 +108,7 @@ class UserController extends GetxController {
 
         recruitState(LoadingState.finished);
         recruitDone = true;
-        // schedule.removeAt(schedule.indexWhere((element) => element == path.path));
-        // if (!schedule.contains(path.path)) {
-        //   recruitState(LoadingState.finished);
-        //   recruitDone = true;
-        // }
+
         break;
       case AccountPagePath.invite:
         if (inviteDone || inviteState.value == LoadingState.loading) return;
@@ -121,11 +117,7 @@ class UserController extends GetxController {
 
         inviteState(LoadingState.finished);
         inviteDone = true;
-        // schedule.removeAt(schedule.indexWhere((element) => element == path.path));
-        // if (!schedule.contains(path.path)) {
-        //   inviteState(LoadingState.finished);
-        //   inviteDone = true;
-        // }
+
         break;
     }
   }

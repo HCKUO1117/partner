@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +11,7 @@ import 'package:partner/screens/common/loading_layout.dart';
 import 'package:partner/utils/translation.dart';
 import 'package:partner/utils/utils.dart';
 import 'package:partner/widgets/editable_text_title.dart';
+import 'package:partner/widgets/image_widget.dart';
 import 'package:partner/widgets/list_button.dart';
 
 enum AccountPagePath {
@@ -118,8 +118,7 @@ class AccountPage extends StatelessWidget {
       case AccountPagePath.info:
         return _info();
       case AccountPagePath.resume:
-        // TODO: Handle this case.
-        break;
+        return _resume();
       case AccountPagePath.article:
         // TODO: Handle this case.
         break;
@@ -140,16 +139,14 @@ class AccountPage extends StatelessWidget {
         const SizedBox(height: 16),
         Stack(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(200),
-              child: CachedNetworkImage(
-                imageUrl: userController.changedProfile.value == null
-                    ? userModel?.profile ?? ''
-                    : userController.changedProfile.value?.path ?? '',
-                fit: BoxFit.cover,
-                width: 200,
-                height: 200,
-              ),
+            ImageWidget(
+              url: userController.changedProfile.value == null
+                  ? userModel?.profile ?? ''
+                  : userController.changedProfile.value?.path ?? '',
+              fit: BoxFit.cover,
+              width: 200,
+              height: 200,
+              radius: 200,
             ),
             Positioned(
               right: 10,
@@ -161,6 +158,7 @@ class AccountPage extends StatelessWidget {
                     XFile? file = await Utils.pickSingleImage();
                     if (file != null) {
                       userController.changedProfile(file);
+                      userController.onCanUserSaveListen();
                     }
                   },
                   customBorder: const CircleBorder(),
@@ -193,9 +191,10 @@ class AccountPage extends StatelessWidget {
               EditableTextTitle(
                 title: Messages.nickName.tr,
                 controller: userController.nickname,
+                maxLength: 50,
                 editTextType: EditTextType.editable,
-                onChange: (v){
-                  userController.update();
+                onChange: (v) {
+                  userController.onCanUserSaveListen();
                 },
               ),
               const SizedBox(height: 32),
@@ -265,6 +264,7 @@ class AccountPage extends StatelessWidget {
                         .toList(),
                     onChanged: (value) {
                       userController.selectedGenderType(value);
+                      userController.onCanUserSaveListen();
                     },
                   ),
                 ],
@@ -274,7 +274,7 @@ class AccountPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: userController.canSave ? () {} : null,
+                    onPressed: userController.canUserSave.value ? () {} : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Constants.primaryOrange,
                       foregroundColor: Colors.white,
@@ -300,10 +300,119 @@ class AccountPage extends StatelessWidget {
   }
 
   Widget _resume() {
-    return Column(
-      children: [
-        const SizedBox(height: 16),
-      ],
+    var resume = userController.userResume.value;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Column(
+        children: [
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              ImageWidget(
+                url: resume?.profile ?? '',
+                fit: BoxFit.cover,
+                width: 100,
+                height: 100,
+                radius: 100,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  resume?.nickname ?? '',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black54,
+                  ),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 32),
+          EditableTextTitle(
+            title: Messages.shortIntro.tr,
+            controller: userController.shortIntro,
+            editTextType: EditTextType.editable,
+            maxLength: 300,
+            onChange: (v) {
+              userController.onCanResumeSaveListen();
+            },
+          ),
+          const SizedBox(height: 32),
+          EditableTextTitle(
+            title: Messages.completeIntro.tr,
+            controller: userController.completeIntro,
+            editTextType: EditTextType.editable,
+            maxLength: 1000,
+            minLine: 10,
+            onChange: (v) {
+              userController.onCanResumeSaveListen();
+            },
+          ),
+          const SizedBox(height: 32),
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      Messages.experiences.tr,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Get.defaultDialog();
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(Icons.add),
+                        Text(Messages.add.tr),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 32),
+          Text(
+            Messages.expertises.tr,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black54,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 32),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: userController.canResumeSave.value ? () {} : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Constants.primaryOrange,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  padding: const EdgeInsets.all(14),
+                ),
+                child: Text(
+                  Messages.save.tr,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 32),
+        ],
+      ),
     );
   }
 }
