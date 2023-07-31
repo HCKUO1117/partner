@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:partner/constants.dart';
@@ -102,7 +103,7 @@ class AccountPage extends StatelessWidget {
                   fixedSize: 500,
                   state: userController.checkIsLoading(path),
                   child: Card(
-                    child: _userCard(),
+                    child: _userCard(context),
                   ),
                 ),
               ),
@@ -113,12 +114,12 @@ class AccountPage extends StatelessWidget {
     );
   }
 
-  Widget _userCard() {
+  Widget _userCard(BuildContext context) {
     switch (path) {
       case AccountPagePath.info:
         return _info();
       case AccountPagePath.resume:
-        return _resume();
+        return _resume(context);
       case AccountPagePath.article:
         // TODO: Handle this case.
         break;
@@ -299,7 +300,7 @@ class AccountPage extends StatelessWidget {
     );
   }
 
-  Widget _resume() {
+  Widget _resume(BuildContext context) {
     var resume = userController.userResume.value;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -366,6 +367,16 @@ class AccountPage extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
+                      SmartDialog.show(
+                        builder: (context) => Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Text('123123'),
+                        ),
+                      );
                       Get.defaultDialog();
                     },
                     child: Row(
@@ -380,13 +391,68 @@ class AccountPage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 32),
-          Text(
-            Messages.expertises.tr,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.black54,
-              fontSize: 16,
-            ),
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      Messages.expertises.tr,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      SmartDialog.show(
+                        builder: (context) => Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Spacer(),
+                                  IconButton(
+                                    onPressed: () {
+                                      SmartDialog.dismiss();
+                                    },
+                                    icon: const Icon(Icons.clear),
+                                  ),
+                                ],
+                              ),
+                              EditableTextTitle(
+                                title: Messages.expertises.tr,
+                                controller: userController.completeIntro,
+                                editTextType: EditTextType.editable,
+                                maxLength: 1000,
+                                minLine: 10,
+                                onChange: (v) {
+                                  userController.onCanResumeSaveListen();
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                      Get.defaultDialog();
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(Icons.add),
+                        Text(Messages.add.tr),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
           const SizedBox(height: 32),
           Row(
