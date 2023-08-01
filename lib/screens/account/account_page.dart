@@ -368,16 +368,10 @@ class AccountPage extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       SmartDialog.show(
-                        builder: (context) => Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          child: Text('123123'),
+                        builder: (context) => AlertDialog(
+                          title:Text('123123') ,
                         ),
                       );
-                      Get.defaultDialog();
                     },
                     child: Row(
                       children: [
@@ -441,7 +435,6 @@ class AccountPage extends StatelessWidget {
                           ),
                         ),
                       );
-                      Get.defaultDialog();
                     },
                     child: Row(
                       children: [
