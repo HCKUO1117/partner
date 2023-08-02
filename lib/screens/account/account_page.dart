@@ -7,11 +7,14 @@ import 'package:partner/constants.dart';
 import 'package:partner/controllers/user_controller.dart';
 import 'package:partner/models/user_model.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
+import 'package:partner/screens/account/add_experience_dialog.dart';
+import 'package:partner/screens/account/add_expertise_dialog.dart';
 import 'package:partner/screens/common/layout_with_topper_page.dart';
 import 'package:partner/screens/common/loading_layout.dart';
 import 'package:partner/utils/translation.dart';
 import 'package:partner/utils/utils.dart';
 import 'package:partner/widgets/editable_text_title.dart';
+import 'package:partner/widgets/experience_card.dart';
 import 'package:partner/widgets/image_widget.dart';
 import 'package:partner/widgets/list_button.dart';
 
@@ -82,6 +85,7 @@ class AccountPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Card(
+              elevation: 0,
               child: IntrinsicWidth(
                 child: Column(
                   children: [
@@ -102,9 +106,7 @@ class AccountPage extends StatelessWidget {
                 child: LoadingLayout(
                   fixedSize: 500,
                   state: userController.checkIsLoading(path),
-                  child: Card(
-                    child: _userCard(context),
-                  ),
+                  child: _userCard(context),
                 ),
               ),
             ),
@@ -130,348 +132,409 @@ class AccountPage extends StatelessWidget {
         // TODO: Handle this case.
         break;
     }
-    return SizedBox();
+    return const SizedBox();
   }
 
   Widget _info() {
     UserModel? userModel = userController.userModel.value;
-    return Column(
-      children: [
-        const SizedBox(height: 16),
-        Stack(
-          children: [
-            ImageWidget(
-              url: userController.changedProfile.value == null
-                  ? userModel?.profile ?? ''
-                  : userController.changedProfile.value?.path ?? '',
-              fit: BoxFit.cover,
-              width: 200,
-              height: 200,
-              radius: 200,
-            ),
-            Positioned(
-              right: 10,
-              bottom: 10,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: InkWell(
-                  onTap: () async {
-                    XFile? file = await Utils.pickSingleImage();
-                    if (file != null) {
-                      userController.changedProfile(file);
-                      userController.onCanUserSaveListen();
-                    }
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Container(
-                    color: Constants.primaryOrange,
-                    width: 40,
-                    height: 40,
-                    child: const Icon(
-                      Icons.edit,
-                      color: Colors.white,
+    return Card(
+      elevation: 0,
+      child: Column(
+        children: [
+          const SizedBox(height: 16),
+          Stack(
+            children: [
+              ImageWidget(
+                url: userController.changedProfile.value == null
+                    ? userModel?.profile ?? ''
+                    : userController.changedProfile.value?.path ?? '',
+                fit: BoxFit.cover,
+                width: 200,
+                height: 200,
+                radius: 200,
+              ),
+              Positioned(
+                right: 10,
+                bottom: 10,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: InkWell(
+                    onTap: () async {
+                      XFile? file = await Utils.pickSingleImage();
+                      if (file != null) {
+                        userController.changedProfile(file);
+                        userController.onCanUserSaveListen();
+                      }
+                    },
+                    customBorder: const CircleBorder(),
+                    child: Container(
+                      color: Constants.primaryOrange,
+                      width: 40,
+                      height: 40,
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 32),
-              EditableTextTitle(
-                title: 'E-mail/${Messages.account.tr}',
-                controller: userController.userEmail,
-                editTextType: EditTextType.none,
-              ),
-              const SizedBox(height: 32),
-              EditableTextTitle(
-                title: Messages.nickName.tr,
-                controller: userController.nickname,
-                maxLength: 50,
-                editTextType: EditTextType.editable,
-                onChange: (v) {
-                  userController.onCanUserSaveListen();
-                },
-              ),
-              const SizedBox(height: 32),
-              EditableTextTitle(
-                title: Messages.phone.tr,
-                controller: userController.phone,
-                hint: Messages.phoneHint.tr,
-                editTextType: EditTextType.action,
-                action: () {},
-              ),
-              const SizedBox(height: 32),
-              EditableTextTitle(
-                title: Messages.contactEmail.tr,
-                controller: userController.contactEmail,
-                hint: Messages.contactEmailHint.tr,
-                editTextType: EditTextType.action,
-                action: () {},
-              ),
-              const SizedBox(height: 32),
-              Text(
-                Messages.gender.tr,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black54,
-                  fontSize: 16,
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 32),
+                EditableTextTitle(
+                  title: 'E-mail/${Messages.account.tr}',
+                  controller: userController.userEmail,
+                  editTextType: EditTextType.none,
                 ),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  DropdownButton2<GenderType?>(
-                    value: userController.selectedGenderType.value,
-                    hint: Text(
-                      Messages.selectYourGender.tr,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black38,
+                const SizedBox(height: 32),
+                EditableTextTitle(
+                  title: Messages.nickName.tr,
+                  controller: userController.nickname,
+                  maxLength: 50,
+                  editTextType: EditTextType.editable,
+                  onChange: (v) {
+                    userController.onCanUserSaveListen();
+                  },
+                ),
+                const SizedBox(height: 32),
+                EditableTextTitle(
+                  title: Messages.phone.tr,
+                  controller: userController.phone,
+                  hint: Messages.phoneHint.tr,
+                  editTextType: EditTextType.action,
+                  action: () {},
+                ),
+                const SizedBox(height: 32),
+                EditableTextTitle(
+                  title: Messages.contactEmail.tr,
+                  controller: userController.contactEmail,
+                  hint: Messages.contactEmailHint.tr,
+                  editTextType: EditTextType.action,
+                  action: () {},
+                ),
+                const SizedBox(height: 32),
+                Text(
+                  Messages.gender.tr,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    DropdownButton2<GenderType?>(
+                      value: userController.selectedGenderType.value,
+                      hint: Text(
+                        Messages.selectYourGender.tr,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black38,
+                        ),
                       ),
+                      buttonStyleData: ButtonStyleData(
+                        padding: const EdgeInsets.only(left: 14, right: 14),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                            color: Colors.black26,
+                          ),
+                        ),
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      underline: const SizedBox(),
+                      items: GenderType.values
+                          .map(
+                            (item) => DropdownMenuItem<GenderType>(
+                              value: item,
+                              child: Text(
+                                item.text,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        userController.selectedGenderType(value);
+                        userController.onCanUserSaveListen();
+                      },
                     ),
-                    buttonStyleData: ButtonStyleData(
-                      padding: const EdgeInsets.only(left: 14, right: 14),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: Colors.black26,
+                  ],
+                ),
+                const SizedBox(height: 32),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: userController.canUserSave.value ? () {} : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Constants.primaryOrange,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(14),
+                      ),
+                      child: Text(
+                        Messages.save.tr,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    dropdownStyleData: DropdownStyleData(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    underline: const SizedBox(),
-                    items: GenderType.values
-                        .map(
-                          (item) => DropdownMenuItem<GenderType>(
-                            value: item,
-                            child: Text(
-                              item.text,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      userController.selectedGenderType(value);
-                      userController.onCanUserSaveListen();
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: userController.canUserSave.value ? () {} : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Constants.primaryOrange,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      padding: const EdgeInsets.all(14),
-                    ),
-                    child: Text(
-                      Messages.save.tr,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-            ],
+                  ],
+                ),
+                const SizedBox(height: 32),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _resume(BuildContext context) {
     var resume = userController.userResume.value;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
-      child: Column(
-        children: [
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              ImageWidget(
-                url: resume?.profile ?? '',
-                fit: BoxFit.cover,
-                width: 100,
-                height: 100,
-                radius: 100,
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Text(
-                  resume?.nickname ?? '',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black54,
-                  ),
-                ),
-              )
-            ],
-          ),
-          const SizedBox(height: 32),
-          EditableTextTitle(
-            title: Messages.shortIntro.tr,
-            controller: userController.shortIntro,
-            editTextType: EditTextType.editable,
-            maxLength: 300,
-            onChange: (v) {
-              userController.onCanResumeSaveListen();
-            },
-          ),
-          const SizedBox(height: 32),
-          EditableTextTitle(
-            title: Messages.completeIntro.tr,
-            controller: userController.completeIntro,
-            editTextType: EditTextType.editable,
-            maxLength: 1000,
-            minLine: 10,
-            onChange: (v) {
-              userController.onCanResumeSaveListen();
-            },
-          ),
-          const SizedBox(height: 32),
-          Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      Messages.experiences.tr,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54,
-                        fontSize: 16,
-                      ),
+    return Column(
+      children: [
+        Card(
+          elevation: 0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    ImageWidget(
+                      url: resume?.profile ?? '',
+                      fit: BoxFit.cover,
+                      width: 100,
+                      height: 100,
+                      radius: 100,
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      SmartDialog.show(
-                        builder: (context) => AlertDialog(
-                          title:Text('123123') ,
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        resume?.nickname ?? '',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.black54,
                         ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(Icons.add),
-                        Text(Messages.add.tr),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 32),
-          Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      Messages.expertises.tr,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54,
-                        fontSize: 16,
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 32),
+                EditableTextTitle(
+                  title: Messages.shortIntro.tr,
+                  controller: userController.shortIntro,
+                  editTextType: EditTextType.editable,
+                  maxLength: 300,
+                  onChange: (v) {
+                    userController.onCanResumeSaveListen();
+                  },
+                ),
+                const SizedBox(height: 32),
+                EditableTextTitle(
+                  title: Messages.completeIntro.tr,
+                  controller: userController.completeIntro,
+                  editTextType: EditTextType.editable,
+                  maxLength: 1000,
+                  minLine: 10,
+                  onChange: (v) {
+                    userController.onCanResumeSaveListen();
+                  },
+                ),
+                const SizedBox(height: 32),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: userController.canResumeSave.value ? () {} : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Constants.primaryOrange,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(14),
+                      ),
+                      child: Text(
+                        Messages.save.tr,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      SmartDialog.show(
-                        builder: (context) => Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
+                  ],
+                ),
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
+        ),
+        Card(
+          elevation: 0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            Messages.experiences.tr,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54,
+                              fontSize: 16,
+                            ),
                           ),
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            bool? result = await SmartDialog.show(
+                              builder: (context) => const AddExperienceDialog(),
+                            );
+
+                            if (result ?? false) {
+                              SmartDialog.showNotify(
+                                msg: Messages.addSuccess.tr,
+                                notifyType: NotifyType.success,
+                              );
+                            }
+                          },
+                          child: Row(
                             children: [
-                              Row(
-                                children: [
-                                  const Spacer(),
-                                  IconButton(
-                                    onPressed: () {
-                                      SmartDialog.dismiss();
-                                    },
-                                    icon: const Icon(Icons.clear),
-                                  ),
-                                ],
-                              ),
-                              EditableTextTitle(
-                                title: Messages.expertises.tr,
-                                controller: userController.completeIntro,
-                                editTextType: EditTextType.editable,
-                                maxLength: 1000,
-                                minLine: 10,
-                                onChange: (v) {
-                                  userController.onCanResumeSaveListen();
-                                },
-                              )
+                              const Icon(Icons.add),
+                              Text(Messages.add.tr),
                             ],
                           ),
                         ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(Icons.add),
-                        Text(Messages.add.tr),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 32),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: userController.canResumeSave.value ? () {} : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Constants.primaryOrange,
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  padding: const EdgeInsets.all(14),
+                    const Divider(),
+                    if (userController.userResume.value == null ||
+                        userController.userResume.value!.experiences.isEmpty)
+                      Text(
+                        Messages.noData.tr,
+                        style: const TextStyle(color: Colors.black54),
+                      )
+                    else
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: userController.userResume.value!.experiences.length,
+                        itemBuilder: (context, index) {
+                          return ExperienceCard(
+                            content: userController.userResume.value!.experiences[index],
+                            onEdit: () async {
+                              bool? result = await SmartDialog.show(
+                                builder: (context) => AddExperienceDialog(
+                                  index: index,
+                                ),
+                              );
+
+                              if (result ?? false) {
+                                SmartDialog.showNotify(
+                                  msg: Messages.modifySuccess.tr,
+                                  notifyType: NotifyType.success,
+                                );
+                              }
+                            },
+                            onDelete: () {
+                              SmartDialog.show(
+                                builder: (context) => AlertDialog(
+                                  title: Text(Messages.delete.tr),
+                                  content: Text(Messages.checkDelete.tr),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        SmartDialog.dismiss();
+                                      },
+                                      child: Text(
+                                        Messages.cancel.tr,
+                                        style: const TextStyle(color: Colors.black54),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        await userController.deleteExperience(index);
+                                        SmartDialog.dismiss();
+                                        SmartDialog.showNotify(
+                                          msg: Messages.deleteSuccess.tr,
+                                          notifyType: NotifyType.success,
+                                        );
+                                      },
+                                      child: Text(Messages.confirm.tr),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      )
+                  ],
                 ),
-                child: Text(
-                  Messages.save.tr,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                const SizedBox(height: 32),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            Messages.expertises.tr,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            SmartDialog.show(
+                              builder: (context) => const AddExpertiseDialog(),
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              const Icon(Icons.add),
+                              Text(Messages.add.tr),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                    Text(
+                      Messages.noData.tr,
+                      style: const TextStyle(color: Colors.black54),
+                    )
+                  ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 32),
+              ],
+            ),
           ),
-          const SizedBox(height: 32),
-        ],
-      ),
+        )
+      ],
     );
   }
 }

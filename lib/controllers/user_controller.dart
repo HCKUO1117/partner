@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:partner/constants.dart';
@@ -9,6 +10,7 @@ import 'package:partner/models/user_model.dart';
 import 'package:partner/screens/account/account_page.dart';
 import 'package:partner/screens/common/loading_layout.dart';
 import 'package:partner/utils/preferences.dart';
+import 'package:partner/utils/translation.dart';
 import 'package:partner/utils/utils.dart';
 
 class UserController extends GetxController {
@@ -61,6 +63,37 @@ class UserController extends GetxController {
     );
   }
 
+  Future<void> addExperience(String content) async {
+    //TODO 新增專長
+    SmartDialog.showLoading(msg: Messages.loading.tr);
+    await Utils.delay();
+    userResume.value?.experiences.add(content);
+    userResume.refresh();
+
+    SmartDialog.dismiss();
+  }
+
+  Future<void> modifyExperience({required int index, required String content}) async {
+    //TODO 修改專長
+    SmartDialog.showLoading(msg: Messages.loading.tr);
+    await Utils.delay();
+    userResume.value?.experiences[index] = content;
+    userResume.refresh();
+
+    SmartDialog.dismiss();
+  }
+
+  Future<void> deleteExperience(int index) async {
+    //TODO 刪除專長
+    SmartDialog.showLoading(msg: Messages.loading.tr);
+    await Utils.delay();
+    userResume.value?.experiences.removeAt(index);
+    userResume.refresh();
+
+    SmartDialog.dismiss();
+  }
+
+  ///
   Future<void> fetch(AccountPagePath path) async {
     switch (path) {
       case AccountPagePath.info:

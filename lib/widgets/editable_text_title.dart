@@ -19,6 +19,7 @@ class EditableTextTitle extends StatelessWidget {
   final Function(String)? onChange;
   final int? maxLength;
   final int? minLine;
+  final String? error;
 
   const EditableTextTitle({
     Key? key,
@@ -29,7 +30,9 @@ class EditableTextTitle extends StatelessWidget {
     this.action,
     this.hint,
     this.onChange,
-    this.maxLength, this.minLine,
+    this.maxLength,
+    this.minLine,
+    this.error,
   }) : super(key: key);
 
   @override
@@ -72,22 +75,29 @@ class EditableTextTitle extends StatelessWidget {
           maxLength: maxLength,
           maxLines: null,
           minLines: minLine,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
+            errorText: error,
             border: InputBorder.none,
-            focusedBorder: OutlineInputBorder(
+            focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.grey,
                 width: 0.5,
               ),
             ),
             floatingLabelBehavior: FloatingLabelBehavior.auto,
-            enabledBorder: OutlineInputBorder(
+            enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.grey,
                 width: 0.5,
               ),
             ),
-            errorBorder: OutlineInputBorder(
+            focusedErrorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.red,
+                width: 0.5,
+              ),
+            ),
+            errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.red,
                 width: 0.5,

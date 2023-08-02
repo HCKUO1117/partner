@@ -25,6 +25,16 @@ class Messages extends Translations {
   static const String secret = 'secret';
   static const String gender = 'gender';
   static const String others = 'others';
+  static const String cancel = 'cancel';
+  static const String confirm = 'confirm';
+  static const String canNotEmpty = 'canNotEmpty';
+  static const String noData = 'noData';
+  static const String addSuccess = 'addSuccess';
+  static const String deleteSuccess = 'deleteSuccess';
+  static const String modifySuccess = 'modifySuccess';
+  static const String delete = 'delete';
+  static const String checkDelete = 'checkDelete';
+  static const String modify = 'modify';
 
   ///會員中心
   static const String memberInfo = 'memberInfo';
@@ -39,6 +49,11 @@ class Messages extends Translations {
   static const String completeIntro = 'completeIntro';
   static const String expertises = 'expertises';
   static const String experiences = 'experiences';
+  static const String portfolio = 'Portfolio';
+  static const String portfolioHint = 'portfolioHint';
+  static const String illustrate = 'illustrate';
+  static const String illustrateHint = 'illustrateHint';
+  static const String moreThan5 = 'moreThan5';
 
   @override
   // TODO: implement keys
@@ -61,24 +76,40 @@ class Messages extends Translations {
           defaultTitle: 'Partmingle 找夥伴、找活動、學技能',
           change: '變更',
           save: '儲存',
-          nickName:'暱稱',
-          phone:'手機號碼',
-          contactEmail:'聯絡Email',
-          account:'帳號',
-          add:'新增',
-          phoneHint:'驗證手機號碼可以增加您帳號的可信度，只有您自己看的到您的手機號碼',
-          contactEmailHint:'您可以設定聯絡E-mail以接收partmingle的通知(未設定將會傳送通知至您的帳號E-mail)，所有人都可以看到您的聯絡E-mail',
-          male:'男',
-          female:'女',
-          unset:'未設定',
-          secret:'保密',
-          gender:'性別',
-          others:'其他',
-          selectYourGender:'選擇性別',
-          shortIntro:'簡短介紹',
-          completeIntro:'完整介紹',
-          expertises:'專長',
-          experiences:'經歷',
+          nickName: '暱稱',
+          phone: '手機號碼',
+          contactEmail: '聯絡Email',
+          account: '帳號',
+          add: '新增',
+          phoneHint: '驗證手機號碼可以增加您帳號的可信度，只有您自己看的到您的手機號碼',
+          contactEmailHint:
+              '您可以設定聯絡E-mail以接收partmingle的通知(未設定將會傳送通知至您的帳號E-mail)，所有人都可以看到您的聯絡E-mail',
+          male: '男',
+          female: '女',
+          unset: '未設定',
+          secret: '保密',
+          gender: '性別',
+          others: '其他',
+          selectYourGender: '選擇性別',
+          shortIntro: '簡短介紹',
+          completeIntro: '完整介紹',
+          expertises: '專長',
+          experiences: '經歷',
+          cancel: '取消',
+          confirm: '確認',
+          canNotEmpty: '必填',
+          portfolio: '作品集',
+          portfolioHint: '您可以新增您的作品集(最多五張)',
+          illustrate: '說明',
+          illustrateHint: '簡要說明或相關連結',
+          moreThan5: '照片不得超過5張',
+          noData: '沒有資料',
+          addSuccess: '新增成功',
+          deleteSuccess: '刪除成功',
+          modifySuccess: '修改成功',
+          delete: '刪除',
+          checkDelete: '是否要刪除',
+          modify: '修改',
         },
         'en_US': {
           home: 'home',
@@ -98,24 +129,41 @@ class Messages extends Translations {
           defaultTitle: 'Partmingle 找夥伴、找活動、學技能',
           change: 'change',
           save: 'save',
-          nickName:'nickname',
-          phone:'cellphone number',
-          contactEmail:'contact Email',
-          account:'Account',
-          add:'add',
-          phoneHint: 'Verifying your mobile number can increase the credibility of your account, only you can see your mobile number',
-          contactEmailHint: 'You can set your contact E-mail to receive notifications from partmingle (notifications will be sent to your account E-mail if not set), and everyone can see your contact E-mail',
+          nickName: 'nickname',
+          phone: 'cellphone number',
+          contactEmail: 'contact Email',
+          account: 'Account',
+          add: 'add',
+          phoneHint:
+              'Verifying your mobile number can increase the credibility of your account, only you can see your mobile number',
+          contactEmailHint:
+              'You can set your contact E-mail to receive notifications from partmingle (notifications will be sent to your account E-mail if not set), and everyone can see your contact E-mail',
           male: 'male',
-          female:'female',
-          unset:'unset',
-          secret:'secret',
-          gender:'gender',
-          others:'others',
-          selectYourGender:'Select Your Gender',
-          shortIntro:'short introduction',
+          female: 'female',
+          unset: 'unset',
+          secret: 'secret',
+          gender: 'gender',
+          others: 'others',
+          selectYourGender: 'Select Your Gender',
+          shortIntro: 'short introduction',
           completeIntro: 'Complete introduction',
           expertises: 'Expertises',
-          experiences:'Experiences',
+          experiences: 'Experiences',
+          cancel: 'cancel',
+          confirm: 'confirm',
+          canNotEmpty: 'required',
+          portfolio: 'Portfolio',
+          portfolioHint: 'You can add your portfolio (up to five)',
+          illustrate: 'Description',
+          illustrateHint: 'Brief description or related links',
+          moreThan5: 'Photos must not exceed 5',
+          noData: 'No data',
+          addSuccess: 'add success',
+          deleteSuccess: 'delete successfully',
+          modifySuccess: 'Modify successfully',
+          delete: 'Delete',
+          checkDelete: 'Do you want to delete?',
+          modify: 'Modify',
         }
       };
 }
