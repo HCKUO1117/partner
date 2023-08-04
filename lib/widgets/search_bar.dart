@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:partner/widgets/search_history_title.dart';
 
-class SearchBar extends StatefulWidget {
+class MySearchBar extends StatefulWidget {
   final Function(String) onSearch;
 
-  const SearchBar({
+  const MySearchBar({
     Key? key,
     required this.onSearch,
   }) : super(key: key);
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<MySearchBar> createState() => _MySearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> with TickerProviderStateMixin {
+class _MySearchBarState extends State<MySearchBar> with TickerProviderStateMixin {
   final TextEditingController controller = TextEditingController();
   final FocusNode node = FocusNode();
 

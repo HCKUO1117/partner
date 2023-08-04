@@ -6,7 +6,8 @@ import 'package:partner/controllers/user_controller.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
 import 'package:partner/utils/translation.dart';
 import 'package:partner/widgets/menu_list_button.dart';
-import 'package:partner/widgets/search_bar.dart';
+
+import '../../widgets/search_bar.dart';
 
 class LayoutWithTopperPage extends StatelessWidget {
   final Widget bottom;
@@ -124,7 +125,7 @@ class LayoutWithTopperPage extends StatelessWidget {
                         child: Column(
                           children: [
                             const SizedBox(height: 13),
-                            SearchBar(
+                            MySearchBar(
                               onSearch: (value) {},
                             )
                           ],
@@ -171,7 +172,7 @@ class LayoutWithTopperPage extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 13),
-                  SearchBar(
+                  MySearchBar(
                     onSearch: (value) {},
                   )
                 ],

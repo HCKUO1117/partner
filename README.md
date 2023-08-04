@@ -5,4 +5,4 @@ web
 
 #environment
 
-flutter version:3.7.11
+flutter version:3.10.6
