@@ -35,6 +35,12 @@ class Messages extends Translations {
   static const String delete = 'delete';
   static const String checkDelete = 'checkDelete';
   static const String modify = 'modify';
+  static const String name = 'name';
+  static const String images = 'images';
+  static const String link = 'link';
+  static const String contactMethod = 'contactMethod';
+  static const String contactMethodHint = 'contactMethodHint';
+  static const String open = 'open';
 
   ///會員中心
   static const String memberInfo = 'memberInfo';
@@ -54,6 +60,7 @@ class Messages extends Translations {
   static const String illustrate = 'illustrate';
   static const String illustrateHint = 'illustrateHint';
   static const String moreThan5 = 'moreThan5';
+  static const String linkHint = 'linkHint';
 
   @override
   // TODO: implement keys
@@ -82,8 +89,7 @@ class Messages extends Translations {
           account: '帳號',
           add: '新增',
           phoneHint: '驗證手機號碼可以增加您帳號的可信度，只有您自己看的到您的手機號碼',
-          contactEmailHint:
-              '您可以設定聯絡E-mail以接收partmingle的通知(未設定將會傳送通知至您的帳號E-mail)，所有人都可以看到您的聯絡E-mail',
+          contactEmailHint: '您可以設定聯絡E-mail以接收partmingle的通知(未設定將會傳送通知至您的帳號E-mail)',
           male: '男',
           female: '女',
           unset: '未設定',
@@ -101,7 +107,7 @@ class Messages extends Translations {
           portfolio: '作品集',
           portfolioHint: '您可以新增您的作品集(最多五張)',
           illustrate: '說明',
-          illustrateHint: '簡要說明或相關連結',
+          illustrateHint: '簡要說明',
           moreThan5: '照片不得超過5張',
           noData: '沒有資料',
           addSuccess: '新增成功',
@@ -110,6 +116,13 @@ class Messages extends Translations {
           delete: '刪除',
           checkDelete: '是否要刪除',
           modify: '修改',
+          name: '名稱',
+          images: '照片',
+          link: '連結',
+          linkHint: '您作品的連結',
+          contactMethod: '聯絡方式',
+          contactMethodHint: '設定您的聯絡方式，當您開放您的履歷時，所有人都看的到您的聯絡方式',
+          open: '履歷開放',
         },
         'en_US': {
           home: 'home',
@@ -129,15 +142,15 @@ class Messages extends Translations {
           defaultTitle: 'Partmingle 找夥伴、找活動、學技能',
           change: 'change',
           save: 'save',
-          nickName: 'nickname',
-          phone: 'cellphone number',
-          contactEmail: 'contact Email',
+          nickName: 'Nickname',
+          phone: 'Cellphone number',
+          contactEmail: 'Contact Email',
           account: 'Account',
           add: 'add',
           phoneHint:
               'Verifying your mobile number can increase the credibility of your account, only you can see your mobile number',
           contactEmailHint:
-              'You can set your contact E-mail to receive notifications from partmingle (notifications will be sent to your account E-mail if not set), and everyone can see your contact E-mail',
+              'You can set your contact E-mail to receive notifications from partmingle (notifications will be sent to your account E-mail if not set)',
           male: 'male',
           female: 'female',
           unset: 'unset',
@@ -145,7 +158,7 @@ class Messages extends Translations {
           gender: 'gender',
           others: 'others',
           selectYourGender: 'Select Your Gender',
-          shortIntro: 'short introduction',
+          shortIntro: 'Short introduction',
           completeIntro: 'Complete introduction',
           expertises: 'Expertises',
           experiences: 'Experiences',
@@ -155,15 +168,23 @@ class Messages extends Translations {
           portfolio: 'Portfolio',
           portfolioHint: 'You can add your portfolio (up to five)',
           illustrate: 'Description',
-          illustrateHint: 'Brief description or related links',
+          illustrateHint: 'Brief description',
           moreThan5: 'Photos must not exceed 5',
           noData: 'No data',
-          addSuccess: 'add success',
-          deleteSuccess: 'delete successfully',
+          addSuccess: 'Add success',
+          deleteSuccess: 'Delete successfully',
           modifySuccess: 'Modify successfully',
           delete: 'Delete',
           checkDelete: 'Do you want to delete?',
           modify: 'Modify',
+          name: 'Name',
+          images: 'Photos',
+          link: 'Link',
+          linkHint: 'Link to your work',
+          contactMethod: 'contact method',
+          contactMethodHint:
+              'Set your contact method, when you open your resume, everyone can see your contact method',
+          open: 'Resume open',
         }
       };
 }

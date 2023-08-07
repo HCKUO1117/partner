@@ -7,8 +7,11 @@ class ResumeModel {
   String shortIntro;
   String completeIntro;
   List<SkillModel> skillList;
+  List<PortfolioModel> portfolioList;
   List<String> experiences;
   List<TagModel> tags;
+  List<String> contacts;
+  bool open;
 
   factory ResumeModel.sample() {
     return ResumeModel(
@@ -18,9 +21,12 @@ class ResumeModel {
           'https://janstockcoin.com/wp-content/uploads/2021/06/pexels-photo-747964-2048x1293.jpeg',
       shortIntro: '',
       completeIntro: '',
-      skillList: [],
+      portfolioList: [],
       experiences: [],
       tags: [],
+      contacts: [],
+      skillList: [],
+      open: true,
     );
   }
 
@@ -30,18 +36,49 @@ class ResumeModel {
     required this.profile,
     required this.shortIntro,
     required this.completeIntro,
-    required this.skillList,
+    required this.portfolioList,
     required this.experiences,
     required this.tags,
+    required this.contacts,
+    required this.skillList,
+    required this.open,
+  });
+}
+
+class PortfolioModel {
+  String name;
+  List<String> images;
+  String description;
+  String? link;
+  List<TagModel> tags;
+
+  PortfolioModel({
+    required this.name,
+    required this.images,
+    required this.description,
+    this.link,
+    this.tags = const <TagModel>[],
   });
 }
 
 class SkillModel {
   String name;
-  List<String> images;
+  String description;
+  List<TagModel> tags;
 
   SkillModel({
     required this.name,
-    required this.images,
+    required this.description,
+    this.tags = const <TagModel>[],
+  });
+}
+
+class ContactModel {
+  String name;
+  String description;
+
+  ContactModel({
+    required this.name,
+    required this.description,
   });
 }

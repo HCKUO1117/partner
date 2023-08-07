@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:partner/constants.dart';
-import 'package:partner/utils/utils.dart';
-import 'package:partner/widgets/image_widget.dart';
+import 'package:partner/models/resume_model.dart';
 
+import '../../controllers/user_controller.dart';
 import '../../utils/translation.dart';
 import '../../widgets/editable_text_title.dart';
 
 class AddExpertiseDialog extends StatefulWidget {
-  const AddExpertiseDialog({Key? key}) : super(key: key);
+  final int? index;
+
+  const AddExpertiseDialog({
+    Key? key,
+    this.index,
+  }) : super(key: key);
 
   @override
-  State<AddExpertiseDialog> createState() => _AddExpertiseDialogState();
+  State<AddExpertiseDialog> createState() => _AddPortfolioDialogState();
 }
 
-class _AddExpertiseDialogState extends State<AddExpertiseDialog> {
+class _AddPortfolioDialogState extends State<AddExpertiseDialog> {
   TextEditingController controller = TextEditingController();
-  TextEditingController illustrate = TextEditingController();
-
-  List<XFile> images = [];
+  TextEditingController description = TextEditingController();
 
   String? error;
+
+  UserController userController = Get.find();
+
+  @override
+  void initState() {
+    if (widget.index != null) {
+      controller.text = userController.userResume.value?.skillList[widget.index!].name ?? '';
+      description.text =
+          userController.userResume.value?.skillList[widget.index!].description ?? '';
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +45,7 @@ class _AddExpertiseDialogState extends State<AddExpertiseDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             EditableTextTitle(
-              title: Messages.expertises.tr,
+              title: Messages.name.tr,
               controller: controller,
               editTextType: EditTextType.editable,
               error: error,
@@ -43,99 +56,10 @@ class _AddExpertiseDialogState extends State<AddExpertiseDialog> {
               },
             ),
             const SizedBox(height: 8),
-            Text(
-              Messages.portfolio.tr,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black54,
-                fontSize: 16,
-              ),
-            ),
-            Text(
-              Messages.portfolioHint.tr,
-              style: const TextStyle(
-                color: Colors.black38,
-                fontSize: 12,
-              ),
-            ),
-            const SizedBox(height: 8),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  for (var element in images)
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: ImageWidget(
-                            url: element.path,
-                            width: 50,
-                            height: 50,
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                images.remove(element);
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              width: 16,
-                              height: 16,
-                              child: const Icon(
-                                Icons.clear,
-                                color: Colors.white,
-                                size: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  if (images.length < 5)
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: InkWell(
-                        onTap: () async {
-                          List<XFile> temp = await Utils.pickMultiImage();
-                          if (temp.length <= 5 - images.length) {
-                            setState(() {
-                              images.addAll(temp);
-                            });
-                          } else {
-                            SmartDialog.showNotify(
-                              msg: Messages.moreThan5.tr,
-                              notifyType: NotifyType.warning,
-                            );
-                          }
-                        },
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          color: Colors.black12,
-                          child: Icon(
-                            Icons.add,
-                            color: Constants.primaryOrange,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8),
             EditableTextTitle(
               title: Messages.illustrate.tr,
               hint: Messages.illustrateHint.tr,
-              controller: illustrate,
+              controller: description,
               editTextType: EditTextType.editable,
               onChange: (v) {},
             ),
@@ -154,18 +78,37 @@ class _AddExpertiseDialogState extends State<AddExpertiseDialog> {
           ),
         ),
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             if (controller.text.isEmpty) {
               setState(() {
                 error = Messages.canNotEmpty.tr;
               });
+              return;
             }
+            if (widget.index != null) {
+              await userController.modifyExpertise(
+                index: widget.index!,
+                model: SkillModel(
+                  name: controller.text,
+                  description: description.text,
+                ),
+              );
+            } else {
+              await userController.addExpertise(
+                SkillModel(
+                  name: controller.text,
+                  description: description.text,
+                ),
+              );
+            }
+
+            SmartDialog.dismiss(result: true);
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.add),
-              Text(Messages.add.tr),
+              Icon(widget.index == null ? Icons.add : Icons.edit),
+              Text(widget.index == null ? Messages.add.tr : Messages.modify.tr),
             ],
           ),
         ),

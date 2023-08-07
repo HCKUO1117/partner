@@ -64,7 +64,7 @@ class UserController extends GetxController {
   }
 
   Future<void> addExperience(String content) async {
-    //TODO 新增專長
+    //TODO 新增經驗
     SmartDialog.showLoading(msg: Messages.loading.tr);
     await Utils.delay();
     userResume.value?.experiences.add(content);
@@ -73,8 +73,11 @@ class UserController extends GetxController {
     SmartDialog.dismiss();
   }
 
-  Future<void> modifyExperience({required int index, required String content}) async {
-    //TODO 修改專長
+  Future<void> modifyExperience({
+    required int index,
+    required String content,
+  }) async {
+    //TODO 修改經驗
     SmartDialog.showLoading(msg: Messages.loading.tr);
     await Utils.delay();
     userResume.value?.experiences[index] = content;
@@ -84,10 +87,43 @@ class UserController extends GetxController {
   }
 
   Future<void> deleteExperience(int index) async {
-    //TODO 刪除專長
+    //TODO 刪除經驗
     SmartDialog.showLoading(msg: Messages.loading.tr);
     await Utils.delay();
     userResume.value?.experiences.removeAt(index);
+    userResume.refresh();
+
+    SmartDialog.dismiss();
+  }
+
+  Future<void> addExpertise(SkillModel model) async {
+    //TODO 新增專長
+    SmartDialog.showLoading(msg: Messages.loading.tr);
+    await Utils.delay();
+    userResume.value?.skillList.add(model);
+    userResume.refresh();
+
+    SmartDialog.dismiss();
+  }
+
+  Future<void> modifyExpertise({
+    required int index,
+    required SkillModel model,
+  }) async {
+    //TODO 修改專長
+    SmartDialog.showLoading(msg: Messages.loading.tr);
+    await Utils.delay();
+    userResume.value?.skillList[index] = model;
+    userResume.refresh();
+
+    SmartDialog.dismiss();
+  }
+
+  Future<void> deleteExpertise(int index) async {
+    //TODO 刪除經驗
+    SmartDialog.showLoading(msg: Messages.loading.tr);
+    await Utils.delay();
+    userResume.value?.skillList.removeAt(index);
     userResume.refresh();
 
     SmartDialog.dismiss();
