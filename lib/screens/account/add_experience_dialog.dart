@@ -3,6 +3,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:partner/controllers/user_controller.dart';
 
+import '../../constants.dart';
 import '../../utils/translation.dart';
 import '../../widgets/editable_text_title.dart';
 
@@ -38,6 +39,10 @@ class _AddExperienceDialogState extends State<AddExperienceDialog> {
       content: SingleChildScrollView(
         child: Column(
           children: [
+            Container(
+              constraints: const BoxConstraints(maxWidth: Constants.secondChangeWidth),
+              width: double.maxFinite,
+            ),
             EditableTextTitle(
               title: Messages.experiences.tr,
               controller: controller,

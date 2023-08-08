@@ -32,6 +32,10 @@ class _AddPortfolioDialogState extends State<AddPortfolioDialog> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              constraints: const BoxConstraints(maxWidth: Constants.secondChangeWidth),
+              width: double.maxFinite,
+            ),
             EditableTextTitle(
               title: Messages.name.tr,
               controller: controller,
@@ -135,7 +139,7 @@ class _AddPortfolioDialogState extends State<AddPortfolioDialog> {
             const SizedBox(height: 8),
             EditableTextTitle(
               title: Messages.illustrate.tr,
-              hint: Messages.illustrateHint.tr,
+              titleHint: Messages.illustrateHint.tr,
               controller: illustrate,
               editTextType: EditTextType.editable,
               onChange: (v) {},
@@ -143,7 +147,8 @@ class _AddPortfolioDialogState extends State<AddPortfolioDialog> {
             const SizedBox(height: 8),
             EditableTextTitle(
               title: Messages.link.tr,
-              hint: Messages.linkHint.tr,
+              titleHint: Messages.linkHint.tr,
+              hint: 'https://',
               controller: link,
               editTextType: EditTextType.editable,
               onChange: (v) {},

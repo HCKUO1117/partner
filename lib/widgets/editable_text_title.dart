@@ -14,6 +14,7 @@ class EditableTextTitle extends StatelessWidget {
   final TextEditingController controller;
   final EditTextType editTextType;
   final TextInputType? textInputType;
+  final String? titleHint;
   final String? hint;
   final Function()? action;
   final Function(String)? onChange;
@@ -28,11 +29,12 @@ class EditableTextTitle extends StatelessWidget {
     required this.editTextType,
     this.textInputType,
     this.action,
-    this.hint,
+    this.titleHint,
     this.onChange,
     this.maxLength,
     this.minLine,
     this.error,
+    this.hint,
   }) : super(key: key);
 
   @override
@@ -48,9 +50,9 @@ class EditableTextTitle extends StatelessWidget {
             fontSize: 16,
           ),
         ),
-        if (hint != null)
+        if (titleHint != null)
           Text(
-            hint!,
+            titleHint!,
             style: const TextStyle(
               color: Colors.black38,
               fontSize: 12,
@@ -76,6 +78,8 @@ class EditableTextTitle extends StatelessWidget {
           maxLines: null,
           minLines: minLine,
           decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: const TextStyle(color: Colors.black38),
             errorText: error,
             border: InputBorder.none,
             focusedBorder: const OutlineInputBorder(

@@ -41,6 +41,8 @@ class Messages extends Translations {
   static const String contactMethod = 'contactMethod';
   static const String contactMethodHint = 'contactMethodHint';
   static const String open = 'open';
+  static const String tag = 'tag';
+  static const String tagLimit = 'tagLimit';
 
   ///會員中心
   static const String memberInfo = 'memberInfo';
@@ -123,6 +125,8 @@ class Messages extends Translations {
           contactMethod: '聯絡方式',
           contactMethodHint: '設定您的聯絡方式，當您開放您的履歷時，所有人都看的到您的聯絡方式',
           open: '履歷開放',
+          tag:'標籤',
+          tagLimit:'請至少選擇一個、至多三個標籤'
         },
         'en_US': {
           home: 'home',
@@ -185,6 +189,8 @@ class Messages extends Translations {
           contactMethodHint:
               'Set your contact method, when you open your resume, everyone can see your contact method',
           open: 'Resume open',
+          tag:'Tags',
+          tagLimit: 'Please select at least one and at most three tags'
         }
       };
 }

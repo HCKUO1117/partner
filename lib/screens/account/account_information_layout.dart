@@ -88,7 +88,7 @@ class AccountInformationLayout extends StatelessWidget {
                   EditableTextTitle(
                     title: Messages.phone.tr,
                     controller: userController.phone,
-                    hint: Messages.phoneHint.tr,
+                    titleHint: Messages.phoneHint.tr,
                     editTextType: EditTextType.action,
                     action: () {},
                   ),
@@ -96,7 +96,7 @@ class AccountInformationLayout extends StatelessWidget {
                   EditableTextTitle(
                     title: Messages.contactEmail.tr,
                     controller: userController.contactEmail,
-                    hint: Messages.contactEmailHint.tr,
+                    titleHint: Messages.contactEmailHint.tr,
                     editTextType: EditTextType.action,
                     action: () {},
                   ),

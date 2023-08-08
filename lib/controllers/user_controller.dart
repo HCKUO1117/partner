@@ -120,7 +120,7 @@ class UserController extends GetxController {
   }
 
   Future<void> deleteExpertise(int index) async {
-    //TODO 刪除經驗
+    //TODO 刪除專長
     SmartDialog.showLoading(msg: Messages.loading.tr);
     await Utils.delay();
     userResume.value?.skillList.removeAt(index);

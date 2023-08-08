@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:partner/constants.dart';
 import 'package:partner/models/resume_model.dart';
 
 import '../../controllers/user_controller.dart';
@@ -44,6 +45,10 @@ class _AddPortfolioDialogState extends State<AddExpertiseDialog> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              constraints: const BoxConstraints(maxWidth: Constants.secondChangeWidth),
+              width: double.maxFinite,
+            ),
             EditableTextTitle(
               title: Messages.name.tr,
               controller: controller,
@@ -58,12 +63,13 @@ class _AddPortfolioDialogState extends State<AddExpertiseDialog> {
             const SizedBox(height: 8),
             EditableTextTitle(
               title: Messages.illustrate.tr,
-              hint: Messages.illustrateHint.tr,
+              titleHint: Messages.illustrateHint.tr,
               controller: description,
               editTextType: EditTextType.editable,
               onChange: (v) {},
             ),
             const SizedBox(height: 8),
+            // ChooseTagTitle(tags: [])
           ],
         ),
       ),
