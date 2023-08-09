@@ -50,26 +50,22 @@ class PortfolioModel {
   List<String> images;
   String description;
   String? link;
-  List<TagModel> tags;
 
   PortfolioModel({
     required this.name,
     required this.images,
     required this.description,
     this.link,
-    this.tags = const <TagModel>[],
   });
 }
 
 class SkillModel {
   String name;
   String description;
-  List<TagModel> tags;
 
   SkillModel({
     required this.name,
     required this.description,
-    this.tags = const <TagModel>[],
   });
 }
 

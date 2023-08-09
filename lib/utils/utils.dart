@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:html' as html;
 
 class Utils {
   static MaterialColor createMaterialColor(Color color) {
@@ -48,5 +49,26 @@ class Utils {
 
     final List<XFile> images = await picker.pickMultiImage();
     return images;
+  }
+
+  static String? handleImageUpload() {
+    final html.FileUploadInputElement input = html.FileUploadInputElement()..accept = 'image/*';
+    String? selectedImagePath;
+    input.click();
+    final List<html.File> files = input.files!;
+    print(files);
+    if (files.isNotEmpty) {
+      final html.FileReader reader = html.FileReader();
+
+      reader.onLoadEnd.listen((event) {
+        if (reader.result != null) {
+
+            selectedImagePath = reader.result as String;
+
+        }
+      });
+
+      reader.readAsDataUrl(files[0]);
+    }
   }
 }

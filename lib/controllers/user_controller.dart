@@ -129,6 +129,39 @@ class UserController extends GetxController {
     SmartDialog.dismiss();
   }
 
+  Future<void> addPortFolio(PortfolioModel model) async {
+    //TODO 新增作品
+    SmartDialog.showLoading(msg: Messages.loading.tr);
+    await Utils.delay();
+    userResume.value?.portfolioList.add(model);
+    userResume.refresh();
+
+    SmartDialog.dismiss();
+  }
+
+  Future<void> modifyPortfolio({
+    required int index,
+    required PortfolioModel model,
+  }) async {
+    //TODO 修改作品
+    SmartDialog.showLoading(msg: Messages.loading.tr);
+    await Utils.delay();
+    userResume.value?.portfolioList[index] = model;
+    userResume.refresh();
+
+    SmartDialog.dismiss();
+  }
+
+  Future<void> deletePortfolio(int index) async {
+    //TODO 刪除作品
+    SmartDialog.showLoading(msg: Messages.loading.tr);
+    await Utils.delay();
+    userResume.value?.portfolioList.removeAt(index);
+    userResume.refresh();
+
+    SmartDialog.dismiss();
+  }
+
   ///
   Future<void> fetch(AccountPagePath path) async {
     switch (path) {

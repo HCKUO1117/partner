@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:partner/widgets/portfolio_card.dart';
 
 import '../../constants.dart';
 import '../../controllers/user_controller.dart';
@@ -332,10 +333,71 @@ class AccountResumeLayout extends StatelessWidget {
                         ],
                       ),
                       const Divider(),
-                      Text(
-                        Messages.noData.tr,
-                        style: const TextStyle(color: Colors.black54),
-                      )
+                      if (userController.userResume.value == null ||
+                          userController.userResume.value!.portfolioList.isEmpty)
+                        Text(
+                          Messages.noData.tr,
+                          style: const TextStyle(color: Colors.black54),
+                        )
+                      else
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: userController.userResume.value!.portfolioList.length,
+                          itemBuilder: (context, index) {
+                            return PortfolioCard(
+                              name: userController.userResume.value!.portfolioList[index].name,
+                              content:
+                                  userController.userResume.value!.portfolioList[index].description,
+                              images: userController.userResume.value!.portfolioList[index].images,
+                              link:
+                                  userController.userResume.value!.portfolioList[index].link ?? '',
+                              onEdit: () async {
+                                bool? result = await SmartDialog.show(
+                                  builder: (context) => AddPortfolioDialog(
+                                    index: index,
+                                  ),
+                                );
+
+                                if (result ?? false) {
+                                  SmartDialog.showNotify(
+                                    msg: Messages.modifySuccess.tr,
+                                    notifyType: NotifyType.success,
+                                  );
+                                }
+                              },
+                              onDelete: () {
+                                SmartDialog.show(
+                                  builder: (context) => AlertDialog(
+                                    title: Text(Messages.delete.tr),
+                                    content: Text(Messages.checkDelete.tr),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          SmartDialog.dismiss();
+                                        },
+                                        child: Text(
+                                          Messages.cancel.tr,
+                                          style: const TextStyle(color: Colors.black54),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async {
+                                          await userController.deletePortfolio(index);
+                                          SmartDialog.dismiss();
+                                          SmartDialog.showNotify(
+                                            msg: Messages.deleteSuccess.tr,
+                                            notifyType: NotifyType.success,
+                                          );
+                                        },
+                                        child: Text(Messages.confirm.tr),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
                     ],
                   ),
                   const SizedBox(height: 32),
