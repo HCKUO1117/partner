@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:partner/constants.dart';
 import 'package:partner/models/banner_model.dart';
 import 'package:partner/screens/common/loading_layout.dart';
+import 'package:partner/widgets/image_widget.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class BannerWidget extends StatefulWidget {
@@ -54,8 +55,8 @@ class _BannerWidgetState extends State<BannerWidget> {
                             onTap: () {
                               launchUrlString(e.url);
                             },
-                            child: CachedNetworkImage(
-                              imageUrl: e.image,
+                            child: ImageWidget(
+                              url: e.image,
                               fit: BoxFit.contain,
                             ),
                           ),
