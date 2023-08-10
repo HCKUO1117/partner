@@ -37,7 +37,7 @@ class LayoutWithTopperPage extends StatelessWidget {
                 children: [
                   Container(
                     color: Colors.white,
-                    height: sizeController.width > 600 ? 90 : 150,
+                    height: sizeController.width > Constants.secondChangeWidth ? 90 : 150,
                     width: double.maxFinite,
                   ),
                   Stack(
@@ -120,7 +120,7 @@ class LayoutWithTopperPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    if (sizeController.width > 600)
+                    if (sizeController.width > Constants.secondChangeWidth)
                       Flexible(
                         child: Column(
                           children: [
@@ -146,19 +146,10 @@ class LayoutWithTopperPage extends StatelessWidget {
                         onTap: () {
                           AppRouterDelegate.of(context).pushNamed(Constants.accountInfoRoute);
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2,
-                                color: Constants.primaryOrange,
-                              ),
-                              borderRadius: BorderRadius.circular(50)),
-                          padding: const EdgeInsets.all(8),
-                          child: Icon(
-                            Icons.person_outline,
-                            size: 30,
-                            color: Constants.primaryOrange,
-                          ),
+                        child: Icon(
+                          Icons.account_circle_outlined,
+                          size: 50,
+                          color: Constants.primaryOrange,
                         ),
                       ),
                     ),
@@ -167,7 +158,7 @@ class LayoutWithTopperPage extends StatelessWidget {
               ),
             ],
           ),
-          if (sizeController.width <= 600)
+          if (sizeController.width <= Constants.secondChangeWidth)
             Flexible(
               child: Column(
                 children: [

@@ -416,108 +416,8 @@ class AccountResumeLayout extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Expanded(
-                            child: Text(
-                              Messages.contactMethod.tr,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              bool? result = await SmartDialog.show(
-                                builder: (context) => const AddExperienceDialog(),
-                              );
-
-                              if (result ?? false) {
-                                SmartDialog.showNotify(
-                                  msg: Messages.addSuccess.tr,
-                                  notifyType: NotifyType.success,
-                                );
-                              }
-                            },
-                            child: Row(
-                              children: [
-                                const Icon(Icons.add),
-                                Text(Messages.add.tr),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Divider(),
-                      if (userController.userResume.value == null ||
-                          userController.userResume.value!.experiences.isEmpty)
-                        Text(
-                          Messages.noData.tr,
-                          style: const TextStyle(color: Colors.black54),
-                        )
-                      else
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: userController.userResume.value!.experiences.length,
-                          itemBuilder: (context, index) {
-                            return ExperienceCard(
-                              content: userController.userResume.value!.experiences[index],
-                              onEdit: () async {
-                                bool? result = await SmartDialog.show(
-                                  builder: (context) => AddExperienceDialog(
-                                    index: index,
-                                  ),
-                                );
-
-                                if (result ?? false) {
-                                  SmartDialog.showNotify(
-                                    msg: Messages.modifySuccess.tr,
-                                    notifyType: NotifyType.success,
-                                  );
-                                }
-                              },
-                              onDelete: () {
-                                SmartDialog.show(
-                                  builder: (context) => AlertDialog(
-                                    title: Text(Messages.delete.tr),
-                                    content: Text(Messages.checkDelete.tr),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          SmartDialog.dismiss();
-                                        },
-                                        child: Text(
-                                          Messages.cancel.tr,
-                                          style: const TextStyle(color: Colors.black54),
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () async {
-                                          await userController.deleteExperience(index);
-                                          SmartDialog.dismiss();
-                                          SmartDialog.showNotify(
-                                            msg: Messages.deleteSuccess.tr,
-                                            notifyType: NotifyType.success,
-                                          );
-                                        },
-                                        child: Text(Messages.confirm.tr),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        )
-                    ],
-                  ),
-                  const SizedBox(height: 32),
-                  Column(
-                    children: [
-                      Row(
-                        children: [
                           Text(
-                            Messages.open.tr,
+                            Messages.resumeOpen.tr,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black54,
@@ -529,9 +429,18 @@ class AccountResumeLayout extends StatelessWidget {
                       const Divider(),
                       Row(
                         children: [
+                          Text(userController.userResume.value?.open ?? false
+                              ? Messages.open.tr
+                              : Messages.close.tr),
                           Switch(
-                            value: true,
-                            onChanged: (v) {},
+                            value: userController.userResume.value?.open ?? false,
+                            onChanged: (v) async {
+                              await userController.setResumeOpen(v);
+                              SmartDialog.showNotify(
+                                msg: Messages.modifySuccess.tr,
+                                notifyType: NotifyType.success,
+                              );
+                            },
                           ),
                         ],
                       )

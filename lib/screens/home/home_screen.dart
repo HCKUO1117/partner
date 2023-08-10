@@ -116,22 +116,24 @@ class HomeScreen extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               childAspectRatio: 9 / 16,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 16,
               crossAxisCount: sizeController.width.value > Constants.firstChangeWidth
-                  ? 5
+                  ? 4
                   : sizeController.width.value > Constants.secondChangeWidth
-                      ? 4
-                      : 3,
+                      ? 3
+                      : 2,
               children: [
                 for (int i = 0;
                     i <
                         (sizeController.width.value > Constants.firstChangeWidth
                             ? Utils.listLengthCounter(
-                                listLength: homeController.personList.length, maxLength: 10)
+                                listLength: homeController.personList.length, maxLength: 8)
                             : sizeController.width.value > Constants.secondChangeWidth
                                 ? Utils.listLengthCounter(
-                                    listLength: homeController.personList.length, maxLength: 8)
+                                    listLength: homeController.personList.length, maxLength: 6)
                                 : Utils.listLengthCounter(
-                                    listLength: homeController.personList.length, maxLength: 6));
+                                    listLength: homeController.personList.length, maxLength: 4));
                     i++)
                   PersonCard(
                     model: homeController.personList[i],

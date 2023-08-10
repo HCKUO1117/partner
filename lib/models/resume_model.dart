@@ -10,7 +10,6 @@ class ResumeModel {
   List<PortfolioModel> portfolioList;
   List<String> experiences;
   List<TagModel> tags;
-  List<String> contacts;
   bool open;
 
   factory ResumeModel.sample() {
@@ -24,7 +23,6 @@ class ResumeModel {
       portfolioList: [],
       experiences: [],
       tags: [],
-      contacts: [],
       skillList: [],
       open: true,
     );
@@ -39,7 +37,6 @@ class ResumeModel {
     required this.portfolioList,
     required this.experiences,
     required this.tags,
-    required this.contacts,
     required this.skillList,
     required this.open,
   });

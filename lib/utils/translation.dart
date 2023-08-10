@@ -40,9 +40,11 @@ class Messages extends Translations {
   static const String link = 'link';
   static const String contactMethod = 'contactMethod';
   static const String contactMethodHint = 'contactMethodHint';
-  static const String open = 'open';
+  static const String resumeOpen = 'resumeOpen';
   static const String tag = 'tag';
   static const String tagLimit = 'tagLimit';
+  static const String open = 'open';
+  static const String close = 'close';
 
   ///會員中心
   static const String memberInfo = 'memberInfo';
@@ -63,6 +65,7 @@ class Messages extends Translations {
   static const String illustrateHint = 'illustrateHint';
   static const String moreThan5 = 'moreThan5';
   static const String linkHint = 'linkHint';
+  static const String myCollection = 'myCollection';
 
   @override
   // TODO: implement keys
@@ -124,9 +127,12 @@ class Messages extends Translations {
           linkHint: '您作品的連結',
           contactMethod: '聯絡方式',
           contactMethodHint: '設定您的聯絡方式，當您開放您的履歷時，所有人都看的到您的聯絡方式',
-          open: '履歷開放',
+          resumeOpen: '履歷開放',
           tag:'標籤',
-          tagLimit:'請至少選擇一個、至多三個標籤'
+          tagLimit:'請至少選擇一個、至多三個標籤',
+          open:'開啟',
+          close:'關閉',
+          myCollection:'我的收藏',
         },
         'en_US': {
           home: 'home',
@@ -188,9 +194,12 @@ class Messages extends Translations {
           contactMethod: 'contact method',
           contactMethodHint:
               'Set your contact method, when you open your resume, everyone can see your contact method',
-          open: 'Resume open',
+          resumeOpen: 'Resume open',
           tag:'Tags',
-          tagLimit: 'Please select at least one and at most three tags'
+          tagLimit: 'Please select at least one and at most three tags',
+          open:'Open',
+          close:'Close',
+          myCollection:'My collection',
         }
       };
 }

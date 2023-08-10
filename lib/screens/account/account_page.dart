@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:partner/constants.dart';
 import 'package:partner/controllers/user_controller.dart';
 import 'package:partner/navigator_v2/router_delegate.dart';
+import 'package:partner/screens/account/account_article_layout.dart';
 import 'package:partner/screens/account/account_information_layout.dart';
 import 'package:partner/screens/account/account_resume_layout.dart';
 import 'package:partner/screens/common/layout_with_topper_page.dart';
@@ -115,8 +116,7 @@ class AccountPage extends StatelessWidget {
       case AccountPagePath.resume:
         return AccountResumeLayout();
       case AccountPagePath.article:
-        // TODO: Handle this case.
-        break;
+        return AccountArticleLayout();
       case AccountPagePath.myRecruit:
         // TODO: Handle this case.
         break;

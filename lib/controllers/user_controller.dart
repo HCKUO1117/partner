@@ -5,6 +5,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:partner/constants.dart';
+import 'package:partner/models/article_model.dart';
 import 'package:partner/models/resume_model.dart';
 import 'package:partner/models/user_model.dart';
 import 'package:partner/screens/account/account_page.dart';
@@ -161,6 +162,19 @@ class UserController extends GetxController {
 
     SmartDialog.dismiss();
   }
+
+  Future<void> setResumeOpen(bool open) async {
+    //TODO 設定履歷開啟
+    SmartDialog.showLoading(msg: Messages.loading.tr);
+    await Utils.delay();
+    userResume.value?.open = open;
+    userResume.refresh();
+
+    SmartDialog.dismiss();
+  }
+
+  ///文章
+
 
   ///
   Future<void> fetch(AccountPagePath path) async {
